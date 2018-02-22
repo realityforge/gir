@@ -1,0 +1,56 @@
+package zam;
+
+import java.lang.reflect.Field;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.realityforge.braincheck.BrainCheckTestUtil;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+public abstract class AbstractZamTest
+{
+  @BeforeMethod
+  protected void beforeTest()
+    throws Exception
+  {
+    BrainCheckTestUtil.resetConfig( false );
+  }
+
+  @AfterMethod
+  protected void afterTest()
+    throws Exception
+  {
+    BrainCheckTestUtil.resetConfig( true );
+  }
+
+  @Nonnull
+  private Field getField( @Nonnull final Class<?> type, @Nonnull final String fieldName )
+    throws NoSuchFieldException
+  {
+    Class clazz = type;
+    while ( null != clazz && Object.class != clazz )
+    {
+      try
+      {
+        final Field field = clazz.getDeclaredField( fieldName );
+        field.setAccessible( true );
+        return field;
+      }
+      catch ( final Throwable t )
+      {
+        clazz = clazz.getSuperclass();
+      }
+    }
+
+    Assert.fail();
+    throw new IllegalStateException();
+  }
+
+  @SuppressWarnings( "SameParameterValue" )
+  final void setField( @Nonnull final Object object, @Nonnull final String fieldName, @Nullable final Object value )
+    throws NoSuchFieldException, IllegalAccessException
+  {
+    getField( object.getClass(), fieldName ).set( object, value );
+  }
+}
