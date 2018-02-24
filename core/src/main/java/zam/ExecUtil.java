@@ -29,8 +29,8 @@ public final class ExecUtil
     return builder;
   }
 
-  public static int rawExec( @Nonnull final Consumer<ProcessBuilder> action,
-                             @Nullable final Consumer<Process> processHandler )
+  private static int rawExec( @Nonnull final Consumer<ProcessBuilder> action,
+                              @Nullable final Consumer<Process> processHandler )
     throws IOException, InterruptedException
   {
     final ProcessBuilder builder = newProcessBuilder();
@@ -44,7 +44,7 @@ public final class ExecUtil
     return process.waitFor();
   }
 
-  public static int rawExec( @Nonnull final Consumer<ProcessBuilder> action )
+  private static int rawExec( @Nonnull final Consumer<ProcessBuilder> action )
     throws IOException, InterruptedException
   {
     return rawExec( action, null );
