@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public final class GitUtil
+public final class Git
 {
-  private static final Logger LOG = Logger.getLogger( GitUtil.class.getName() );
+  private static final Logger LOG = Logger.getLogger( Git.class.getName() );
 
-  private GitUtil()
+  private Git()
   {
   }
 
