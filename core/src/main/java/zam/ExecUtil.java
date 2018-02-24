@@ -2,12 +2,15 @@ package zam;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -47,9 +50,23 @@ public final class ExecUtil
     return rawExec( action, null );
   }
 
+  /**
+   * Configure ProcessBuilder with specified command.
+   * If any arguments are null then they are skipped when building up commands.
+   *
+   * @param builder the ProcessBuilder to update.
+   * @param args    the command and arguments with possible null values.
+   */
+  public static void cmd( @Nonnull final ProcessBuilder builder, @Nonnull final String... args )
+  {
+    builder.command( Arrays.stream( args )
+                       .filter( Objects::nonNull )
+                       .collect( Collectors.toCollection( ArrayList::new ) ) );
+  }
+
   public static void system( @Nonnull final Consumer<ProcessBuilder> action,
                              @Nullable final Integer expectedExitCode )
-    throws IOException, InterruptedException
+    throws Exception
   {
     final Consumer<ProcessBuilder> builderAction = builder -> {
       builder.inheritIO();
@@ -64,7 +81,7 @@ public final class ExecUtil
   }
 
   public static void system( @Nonnull final Consumer<ProcessBuilder> action )
-    throws IOException, InterruptedException
+    throws Exception
   {
     system( action, 0 );
   }
