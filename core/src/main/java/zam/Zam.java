@@ -20,7 +20,9 @@ public final class Zam
       GitUtil.clone( "https://github.com/realityforge/antix.git", "antix" );
       IoUtil.inDirectory( workingDirectory.resolve( "antix" ), () -> {
         GitUtil.fetch();
-        GitUtil.clean();
+        GitUtil.resetBranch();
+        GitUtil.checkout();
+        GitUtil.pull();
       } );
     } );
 
