@@ -2,9 +2,9 @@ package zam.example;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import zam.Git;
-import zam.IoUtil;
 import zam.Zam;
+import zam.git.Git;
+import zam.io.IoUtil;
 
 public final class Example1
 {

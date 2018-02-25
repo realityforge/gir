@@ -1,10 +1,11 @@
-package zam;
+package zam.io;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import javax.annotation.Nonnull;
+import zam.Task;
 
 public final class IoUtil
 {
