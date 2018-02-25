@@ -46,6 +46,9 @@ public final class IoUtil
         bytesRead = in.read( buffer );
       }
     }
-    output.flush();
+    finally
+    {
+      output.flush();
+    }
   }
 }
