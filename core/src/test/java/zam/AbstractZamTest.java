@@ -1,5 +1,7 @@
 package zam;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -7,6 +9,8 @@ import org.realityforge.braincheck.BrainCheckTestUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import zam.io.FileUtil;
+import static org.testng.Assert.*;
 
 public abstract class AbstractZamTest
 {
@@ -15,6 +19,7 @@ public abstract class AbstractZamTest
     throws Exception
   {
     BrainCheckTestUtil.resetConfig( false );
+    FileUtil.setCurrentDirectory( FileUtil.cwd() );
   }
 
   @AfterMethod
@@ -52,5 +57,14 @@ public abstract class AbstractZamTest
     throws NoSuchFieldException, IllegalAccessException
   {
     getField( object.getClass(), fieldName ).set( object, value );
+  }
+
+  protected final File createTempDirectory()
+    throws IOException
+  {
+    final File file = File.createTempFile( "zam", "test" );
+    assertTrue( file.delete() );
+    assertTrue( file.mkdirs() );
+    return file;
   }
 }
