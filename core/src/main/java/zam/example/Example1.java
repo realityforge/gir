@@ -6,6 +6,7 @@ import zam.Zam;
 import zam.delta.Patch;
 import zam.git.Git;
 import zam.io.IoUtil;
+import zam.ruby.Ruby;
 
 public final class Example1
 {
@@ -27,6 +28,7 @@ public final class Example1
           Git.add( file.toString() );
           Git.commit( "Patched version of java from 1.6 to 1.8" );
         }
+        Ruby.buildr( "clean", "package" );
       } );
     } );
 
