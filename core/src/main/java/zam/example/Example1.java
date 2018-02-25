@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import zam.Zam;
 import zam.delta.Patch;
 import zam.git.Git;
-import zam.io.IoUtil;
+import zam.io.FileUtil;
 import zam.ruby.Ruby;
 
 public final class Example1
@@ -19,10 +19,10 @@ public final class Example1
   {
     final HashMap<String, Map<String, Long>> statistics = new HashMap<>();
     final Path workingDirectory = Paths.get( "/Users/peter/Code/zam" );
-    IoUtil.inDirectory( workingDirectory, () -> {
+    FileUtil.inDirectory( workingDirectory, () -> {
       Git.clone( "https://github.com/react4j/react4j-todomvc.git", "react4j-todomvc" );
       final Path appDirectory = workingDirectory.resolve( "react4j-todomvc" );
-      IoUtil.inDirectory( appDirectory, () -> {
+      FileUtil.inDirectory( appDirectory, () -> {
         Git.fetch();
         Git.resetBranch();
         Git.checkout();

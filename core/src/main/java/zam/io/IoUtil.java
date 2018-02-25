@@ -3,28 +3,11 @@ package zam.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Path;
 import javax.annotation.Nonnull;
-import zam.Task;
 
 public final class IoUtil
 {
   public static final int DEFAULT_BUFFER_SIZE = 2 * 1024;
-
-  public static void inDirectory( @Nonnull final Path directory, @Nonnull final Task action )
-    throws Exception
-  {
-    final Path initial = FileUtil.getCurrentDirectory();
-    try
-    {
-      FileUtil.setCurrentDirectory( directory );
-      action.call();
-    }
-    finally
-    {
-      FileUtil.setCurrentDirectory( initial );
-    }
-  }
 
   public static void copy( @Nonnull final InputStream input, @Nonnull final OutputStream output )
     throws IOException

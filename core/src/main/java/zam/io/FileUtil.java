@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import zam.Task;
 import zam.ZamException;
 
 public final class FileUtil
@@ -90,6 +91,21 @@ public final class FileUtil
     catch ( final IOException e )
     {
       throw new ZamException( "Failure to delete directory: " + directory, e );
+    }
+  }
+
+  public static void inDirectory( @Nonnull final Path directory, @Nonnull final Task action )
+    throws Exception
+  {
+    final Path initial = getCurrentDirectory();
+    try
+    {
+      setCurrentDirectory( directory );
+      action.call();
+    }
+    finally
+    {
+      setCurrentDirectory( initial );
     }
   }
 }
