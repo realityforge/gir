@@ -29,7 +29,7 @@ public final class Git
 
     if ( targetPath.toFile().exists() )
     {
-      final String remotes = ExecUtil.capture( b -> {
+      final String remotes = Exec.capture( b -> {
         b.command( "git", "remote", "-v" );
         b.directory( targetPath.toFile() );
       }, null );
@@ -49,7 +49,7 @@ public final class Git
 
     if ( !targetPath.toFile().exists() )
     {
-      ExecUtil.system( b -> {
+      Exec.system( b -> {
         b.command( "git", "clone", url, targetPath.getFileName().toString() );
         b.directory( parentDirectory.toFile() );
       } );
@@ -59,13 +59,13 @@ public final class Git
   public static void fetch()
     throws Exception
   {
-    ExecUtil.system( b -> b.command( "git", "fetch", "--prune" ) );
+    Exec.system( b -> b.command( "git", "fetch", "--prune" ) );
   }
 
   public static void clean()
     throws Exception
   {
-    ExecUtil.capture( b -> b.command( "git", "clean", "-f", "-d", "-x" ) );
+    Exec.capture( b -> b.command( "git", "clean", "-f", "-d", "-x" ) );
   }
 
   public static void pull()
@@ -77,7 +77,7 @@ public final class Git
   public static void pull( @Nullable final String remote )
     throws Exception
   {
-    ExecUtil.system( b -> ExecUtil.cmd( b, "git", "pull", remote ) );
+    Exec.system( b -> Exec.cmd( b, "git", "pull", remote ) );
   }
 
   public static void push()
@@ -90,7 +90,7 @@ public final class Git
     throws Exception
   {
     final String currentBranch = currentBranch();
-    ExecUtil.system( b -> ExecUtil.cmd( b, "git", "push", "--set-upstream", remote, currentBranch ) );
+    Exec.system( b -> Exec.cmd( b, "git", "push", "--set-upstream", remote, currentBranch ) );
   }
 
   /**
@@ -102,7 +102,7 @@ public final class Git
   public static String currentBranch()
     throws Exception
   {
-    return ExecUtil.capture( b -> b.command( "git", "rev-parse", "--abbrev-ref", "HEAD" ) ).replace( "\n", "" );
+    return Exec.capture( b -> b.command( "git", "rev-parse", "--abbrev-ref", "HEAD" ) ).replace( "\n", "" );
   }
 
   /**
@@ -126,7 +126,7 @@ public final class Git
     throws Exception
   {
     return Arrays
-      .stream( ExecUtil
+      .stream( Exec
                  .capture( b -> b.command( "git", "branch", all ? "--all" : null ) )
                  .split( "\n" ) )
       .filter( line -> !line.contains( " -> " ) )
@@ -146,7 +146,7 @@ public final class Git
   public static void resetIndex()
     throws Exception
   {
-    ExecUtil.capture( b -> ExecUtil.cmd( b, "git", "reset" ) );
+    Exec.capture( b -> Exec.cmd( b, "git", "reset" ) );
   }
 
   /**
@@ -155,7 +155,7 @@ public final class Git
   public static void resetBranch( @Nullable final String branch )
     throws Exception
   {
-    ExecUtil.capture( b -> ExecUtil.cmd( b, "git", "reset", "--hard", branch ) );
+    Exec.capture( b -> Exec.cmd( b, "git", "reset", "--hard", branch ) );
     clean();
   }
 
@@ -179,6 +179,6 @@ public final class Git
       branches( true )
         .stream()
         .anyMatch( b -> b.equals( branch ) && b.equals( "remotes/origin/" + branch ) );
-    ExecUtil.capture( b -> ExecUtil.cmd( b, "git", "checkout", create ? "-b" : null, branch ) );
+    Exec.capture( b -> Exec.cmd( b, "git", "checkout", create ? "-b" : null, branch ) );
   }
 }

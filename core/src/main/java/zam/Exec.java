@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public final class ExecUtil
+public final class Exec
 {
-  private ExecUtil()
+  private Exec()
   {
   }
 
