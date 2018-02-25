@@ -19,7 +19,6 @@ public final class Git
   }
 
   public static void clone( @Nonnull final String url, @Nonnull final String localName )
-    throws Exception
   {
     final Path parentDirectory = FileUtil.getCurrentDirectory();
     final Path targetPath = parentDirectory.resolve( localName );
@@ -59,37 +58,31 @@ public final class Git
   }
 
   public static void fetch()
-    throws Exception
   {
     Exec.system( "git", "fetch", "--prune" );
   }
 
   public static void clean()
-    throws Exception
   {
     Exec.capture( "git", "clean", "-f", "-d", "-x" );
   }
 
   public static void pull()
-    throws Exception
   {
     pull( null );
   }
 
   public static void pull( @Nullable final String remote )
-    throws Exception
   {
     Exec.system( "git", "pull", remote );
   }
 
   public static void push()
-    throws Exception
   {
     push( null );
   }
 
   public static void push( @Nullable final String remote )
-    throws Exception
   {
     final String currentBranch = currentBranch();
     Exec.system( "git", "push", "--set-upstream", remote, currentBranch );
@@ -102,7 +95,6 @@ public final class Git
    */
   @Nonnull
   public static String currentBranch()
-    throws Exception
   {
     return Exec.capture( "git", "rev-parse", "--abbrev-ref", "HEAD" ).replace( "\n", "" );
   }
@@ -113,7 +105,6 @@ public final class Git
    * @return the local branches.
    */
   public static List<String> localBranches()
-    throws Exception
   {
     return branches( false );
   }
@@ -125,7 +116,6 @@ public final class Git
    * @return the branches.
    */
   public static List<String> branches( final boolean all )
-    throws Exception
   {
     return Arrays
       .stream( Exec.capture( "git", "branch", all ? "--all" : null ).split( "\n" ) )
@@ -135,7 +125,6 @@ public final class Git
   }
 
   public static void resetBranch()
-    throws Exception
   {
     resetBranch( null );
   }
@@ -144,7 +133,6 @@ public final class Git
    * Reset the index.
    */
   public static void resetIndex()
-    throws Exception
   {
     Exec.capture( "git", "reset" );
   }
@@ -153,32 +141,27 @@ public final class Git
    * Reset the index, local filesystem and potentially branch.
    */
   public static void resetBranch( @Nullable final String branch )
-    throws Exception
   {
     Exec.capture( "git", "reset", "--hard", branch );
     clean();
   }
 
   public static void add( @Nonnull final String path )
-    throws Exception
   {
     Exec.capture( "git", "add", path );
   }
 
   public static void checkout()
-    throws Exception
   {
     checkout( "master" );
   }
 
   public static void checkout( @Nonnull final String branch )
-    throws Exception
   {
     checkout( branch, false );
   }
 
   public static void checkout( @Nonnull final String branch, final boolean createUnlessPresent )
-    throws Exception
   {
     final boolean create =
       createUnlessPresent &&
@@ -189,7 +172,6 @@ public final class Git
   }
 
   public static void commit( @Nonnull final String message )
-    throws Exception
   {
     Exec.capture( "git", "commit", "-m", message );
   }
