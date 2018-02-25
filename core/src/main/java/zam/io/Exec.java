@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import zam.Zam;
+import zam.ZamException;
 
 public final class Exec
 {
@@ -32,21 +33,26 @@ public final class Exec
 
   private static int rawExec( @Nonnull final Consumer<ProcessBuilder> action,
                               @Nullable final Consumer<Process> processHandler )
-    throws IOException, InterruptedException
   {
-    final ProcessBuilder builder = newProcessBuilder();
-    action.accept( builder );
-
-    final Process process = builder.start();
-    if ( null != processHandler )
+    try
     {
-      processHandler.accept( process );
+      final ProcessBuilder builder = newProcessBuilder();
+      action.accept( builder );
+
+      final Process process = builder.start();
+      if ( null != processHandler )
+      {
+        processHandler.accept( process );
+      }
+      return process.waitFor();
     }
-    return process.waitFor();
+    catch ( final IOException | InterruptedException e )
+    {
+      throw new ZamException( "Failure to execute process", e );
+    }
   }
 
   private static int rawExec( @Nonnull final Consumer<ProcessBuilder> action )
-    throws IOException, InterruptedException
   {
     return rawExec( action, null );
   }
@@ -67,7 +73,6 @@ public final class Exec
 
   public static void system( @Nonnull final Consumer<ProcessBuilder> action,
                              @Nullable final Integer expectedExitCode )
-    throws Exception
   {
     final Consumer<ProcessBuilder> builderAction = builder -> {
       builder.inheritIO();
@@ -77,37 +82,32 @@ public final class Exec
     if ( null != expectedExitCode && exitCode != expectedExitCode )
     {
       final String message = "Unexpected error code '" + exitCode + "' when expecting '" + expectedExitCode + "'";
-      throw new IllegalStateException( message );
+      throw new ZamException( message );
     }
   }
 
   public static void system( @Nonnull final Consumer<ProcessBuilder> action )
-    throws Exception
   {
     system( action, 0 );
   }
 
   public static void system( @Nonnull final String... args )
-    throws Exception
   {
     system( b -> cmd( b, args ) );
   }
 
   public static String capture( @Nonnull final String... args )
-    throws Exception
   {
     return capture( b -> cmd( b, args ) );
   }
 
   public static String capture( @Nonnull final Consumer<ProcessBuilder> action )
-    throws Exception
   {
     return capture( action, 0 );
   }
 
   public static String capture( @Nonnull final Consumer<ProcessBuilder> action,
                                 @Nullable final Integer expectedExitCode )
-    throws Exception
   {
     final CompletableFuture<String> result = new CompletableFuture<>();
     final Consumer<ProcessBuilder> builderAction = builder -> {
@@ -120,7 +120,14 @@ public final class Exec
       final String message = "Unexpected error code '" + exitCode + "' when expecting '" + expectedExitCode + "'";
       throw new IllegalStateException( message );
     }
-    return result.get();
+    try
+    {
+      return result.get();
+    }
+    catch ( final InterruptedException | ExecutionException e )
+    {
+      throw new ZamException( "Failure to extract process output", e );
+    }
   }
 
   private static void pumpOutputToResult( @Nonnull final CompletableFuture<String> result,

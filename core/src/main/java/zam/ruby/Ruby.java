@@ -12,7 +12,6 @@ public final class Ruby
   }
 
   public static void rbenvExec( @Nonnull final String... args )
-    throws Exception
   {
     final int size = args.length + 2;
     final ArrayList<String> params = new ArrayList<>( size );
@@ -23,7 +22,6 @@ public final class Ruby
   }
 
   public static void bundleExec( @Nonnull final String... args )
-    throws Exception
   {
     final int size = args.length + 2;
     final ArrayList<String> params = new ArrayList<>( size );
@@ -34,7 +32,6 @@ public final class Ruby
   }
 
   public static void buildr( @Nonnull final String... args )
-    throws Exception
   {
     final int size = args.length + 1;
     final ArrayList<String> params = new ArrayList<>( size );

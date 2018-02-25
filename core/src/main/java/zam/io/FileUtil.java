@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import zam.ZamException;
 
 public final class FileUtil
 {
@@ -80,9 +81,15 @@ public final class FileUtil
    * Recursively delete directory.
    */
   public static void deleteDir( @Nonnull final Path directory )
-    throws IOException
   {
-    //noinspection ResultOfMethodCallIgnored
-    Files.walk( directory ).sorted( Comparator.reverseOrder() ).map( Path::toFile ).forEach( File::delete );
+    try
+    {
+      //noinspection ResultOfMethodCallIgnored
+      Files.walk( directory ).sorted( Comparator.reverseOrder() ).map( Path::toFile ).forEach( File::delete );
+    }
+    catch ( final IOException e )
+    {
+      throw new ZamException( "Failure to delete directory: " + directory, e );
+    }
   }
 }
