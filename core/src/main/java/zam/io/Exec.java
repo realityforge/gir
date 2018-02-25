@@ -23,38 +23,36 @@ public final class Exec
   }
 
   @Nonnull
-  private static ProcessBuilder newProcessBuilder()
+  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
+                                   @Nullable final Consumer<Process> processHandler )
   {
-
     final ProcessBuilder builder = new ProcessBuilder();
     builder.directory( FileUtil.getCurrentDirectory().toFile() );
-    return builder;
-  }
-
-  private static int rawExec( @Nonnull final Consumer<ProcessBuilder> action,
-                              @Nullable final Consumer<Process> processHandler )
-  {
+    action.accept( builder );
     try
     {
-      final ProcessBuilder builder = newProcessBuilder();
-      action.accept( builder );
-
       final Process process = builder.start();
       if ( null != processHandler )
       {
         processHandler.accept( process );
       }
-      return process.waitFor();
+      final int exitCode = process.waitFor();
+      return new ExecResults( builder, process, exitCode );
     }
-    catch ( final IOException | InterruptedException e )
+    catch ( final IOException ioe )
     {
-      throw new ZamException( "Failure to execute process", e );
+      throw new ErrorStartingProcessException( builder.command(), ioe );
+    }
+    catch ( final InterruptedException ie )
+    {
+      throw new ErrorWaitingForProcessException( builder.command(), ie );
     }
   }
 
-  private static int rawExec( @Nonnull final Consumer<ProcessBuilder> action )
+  @Nonnull
+  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
   {
-    return rawExec( action, null );
+    return exec( action, null );
   }
 
   /**
@@ -78,11 +76,11 @@ public final class Exec
       builder.inheritIO();
       action.accept( builder );
     };
-    final int exitCode = rawExec( builderAction );
+    final ExecResults results = exec( builderAction );
+    final int exitCode = results.getExitCode();
     if ( null != expectedExitCode && exitCode != expectedExitCode )
     {
-      final String message = "Unexpected error code '" + exitCode + "' when expecting '" + expectedExitCode + "'";
-      throw new ZamException( message );
+      throw new BadExitCodeException( results.getBuilder().command(), expectedExitCode, exitCode, results.getOutput() );
     }
   }
 
@@ -114,20 +112,23 @@ public final class Exec
       builder.redirectErrorStream( true );
       action.accept( builder );
     };
-    final int exitCode = rawExec( builderAction, process -> pumpOutputToResult( result, process ) );
-    if ( null != expectedExitCode && exitCode != expectedExitCode )
-    {
-      final String message = "Unexpected error code '" + exitCode + "' when expecting '" + expectedExitCode + "'";
-      throw new IllegalStateException( message );
-    }
+    final ExecResults results = exec( builderAction, process -> pumpOutputToResult( result, process ) );
+    final int exitCode = results.getExitCode();
+
     try
     {
-      return result.get();
+      results.setOutput( result.get() );
     }
     catch ( final InterruptedException | ExecutionException e )
     {
       throw new ZamException( "Failure to extract process output", e );
     }
+    if ( null != expectedExitCode && exitCode != expectedExitCode )
+    {
+      throw new BadExitCodeException( results.getBuilder().command(), expectedExitCode, exitCode, results.getOutput() );
+    }
+
+    return results.getOutput();
   }
 
   private static void pumpOutputToResult( @Nonnull final CompletableFuture<String> result,
