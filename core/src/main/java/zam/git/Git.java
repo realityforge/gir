@@ -189,4 +189,10 @@ public final class Git
         .anyMatch( b -> b.equals( branch ) && b.equals( "remotes/origin/" + branch ) );
     Exec.capture( b -> Exec.cmd( b, "git", "checkout", create ? "-b" : null, branch ) );
   }
+
+  public static void commit( @Nonnull final String message )
+    throws Exception
+  {
+    Exec.capture( b -> Exec.cmd( b, "git", "commit", "-m", message ) );
+  }
 }
