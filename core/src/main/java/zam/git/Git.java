@@ -193,4 +193,19 @@ public final class Git
   {
     Exec.capture( "git", "commit", "-m", message );
   }
+
+  public static void deleteBranch( @Nonnull final String branch )
+  {
+    deleteBranch( branch, false );
+  }
+
+  public static void deleteBranch( @Nonnull final String branch, final boolean force )
+  {
+    Exec.capture( "git", "branch", force ? "-D" : "-d", branch );
+  }
+
+  public static void deleteLocalBranches()
+  {
+    localBranches().stream().filter( b -> !b.equals( "master" ) ).forEach( Git::deleteBranch );
+  }
 }
