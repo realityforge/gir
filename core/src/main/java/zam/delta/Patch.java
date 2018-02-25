@@ -1,9 +1,11 @@
 package zam.delta;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Function;
 import javax.annotation.Nonnull;
+import zam.ZamException;
 
 public final class Patch
 {
@@ -20,18 +22,37 @@ public final class Patch
    * @return true if the file was patched, false otherwise.
    */
   public static boolean file( @Nonnull final Path file, @Nonnull final Function<String, String> action )
-    throws Exception
   {
     if ( file.toFile().exists() )
     {
-      final String content = new String( Files.readAllBytes( file ) );
+      final String content = loadContent( file );
       final String output = action.apply( content );
       if ( null != output && !content.equals( output ) )
       {
-        Files.write( file, output.getBytes() );
+        try
+        {
+          Files.write( file, output.getBytes() );
+        }
+        catch ( final IOException e )
+        {
+          throw new ZamException( "Error writing file '" + file + "' after file patched", e );
+        }
         return true;
       }
     }
     return false;
+  }
+
+  @Nonnull
+  private static String loadContent( @Nonnull final Path file )
+  {
+    try
+    {
+      return new String( Files.readAllBytes( file ) );
+    }
+    catch ( IOException e )
+    {
+      throw new ZamException( "Error reading file '" + file + "' that attempting to patch", e );
+    }
   }
 }
