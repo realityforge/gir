@@ -87,6 +87,18 @@ public final class Exec
     system( action, 0 );
   }
 
+  public static void system( @Nonnull final String... args )
+    throws Exception
+  {
+    system( b -> cmd( b, args ) );
+  }
+
+  public static String capture( @Nonnull final String... args )
+    throws Exception
+  {
+    return capture( b -> cmd( b, args ) );
+  }
+
   public static String capture( @Nonnull final Consumer<ProcessBuilder> action )
     throws Exception
   {
