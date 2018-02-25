@@ -161,6 +161,12 @@ public final class Git
     clean();
   }
 
+  public static void add( @Nonnull final String path )
+    throws Exception
+  {
+    Exec.capture( b -> Exec.cmd( b, "git", "add", path ) );
+  }
+
   public static void checkout()
     throws Exception
   {
