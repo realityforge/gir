@@ -139,6 +139,8 @@ public final class Git
 
   /**
    * Reset the index, local filesystem and potentially branch.
+   *
+   * @param branch the branch to reset to. Null to reset the branch to the current branch.
    */
   public static void resetBranch( @Nullable final String branch )
   {
