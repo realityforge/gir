@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import zam.Task;
 import zam.ZamException;
 
@@ -19,26 +18,6 @@ public final class FileUtil
 
   private FileUtil()
   {
-  }
-
-  @Nullable
-  public static Path findInPath( @Nonnull final String command )
-  {
-    final String value = System.getenv( "PATH" );
-    if ( null == value )
-    {
-      return null;
-    }
-    final String[] paths = value.split( File.pathSeparator );
-    for ( final String path : paths )
-    {
-      final Path commandPath = Paths.get( path, command ).normalize();
-      if ( commandPath.toFile().exists() )
-      {
-        return commandPath;
-      }
-    }
-    return null;
   }
 
   @Nonnull
