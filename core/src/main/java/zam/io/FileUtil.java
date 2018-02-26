@@ -59,6 +59,8 @@ public final class FileUtil
 
   /**
    * Recursively delete directory.
+   *
+   * @param directory the directory to delete.
    */
   public static void deleteDir( @Nonnull final Path directory )
   {
