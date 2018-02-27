@@ -51,8 +51,8 @@ task 'perform_release' do
     stage('PatchChangelog', 'Patch the changelog to update from previous release') do
       changelog = IO.read('CHANGELOG.md')
       changelog = changelog.gsub("### Unreleased\n", <<HEADER)
-### [v#{ENV['PRODUCT_VERSION']}](https://github.com/realityforge/zam/tree/v#{ENV['PRODUCT_VERSION']}) (#{ENV['RELEASE_DATE']})
-[Full Changelog](https://github.com/realityforge/zam/compare/v#{ENV['PREVIOUS_PRODUCT_VERSION']}...v#{ENV['PRODUCT_VERSION']})
+### [v#{ENV['PRODUCT_VERSION']}](https://github.com/realityforge/gir/tree/v#{ENV['PRODUCT_VERSION']}) (#{ENV['RELEASE_DATE']})
+[Full Changelog](https://github.com/realityforge/gir/compare/v#{ENV['PREVIOUS_PRODUCT_VERSION']}...v#{ENV['PRODUCT_VERSION']})
 HEADER
       IO.write('CHANGELOG.md', changelog)
 
@@ -103,13 +103,13 @@ HEADER
 
       client = Octokit::Client.new(:netrc => true, :auto_paginate => true)
       client.login
-      client.create_release('realityforge/zam', tag, :name => tag, :body => changes, :draft => false, :prerelease => true)
+      client.create_release('realityforge/gir', tag, :name => tag, :body => changes, :draft => false, :prerelease => true)
 
-      candidates = client.list_milestones('realityforge/zam').select {|m| m[:title].to_s == tag}
+      candidates = client.list_milestones('realityforge/gir').select {|m| m[:title].to_s == tag}
       unless candidates.empty?
         milestone = candidates[0]
         unless milestone[:state] == 'closed'
-          client.update_milestone('realityforge/zam', milestone[:number], :state => 'closed')
+          client.update_milestone('realityforge/gir', milestone[:number], :state => 'closed')
         end
       end
     end

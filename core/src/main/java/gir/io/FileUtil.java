@@ -1,4 +1,4 @@
-package zam.io;
+package gir.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import zam.Task;
-import zam.ZamException;
+import gir.Task;
+import gir.ZamException;
 
 public final class FileUtil
 {

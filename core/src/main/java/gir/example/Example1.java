@@ -1,4 +1,4 @@
-package zam.example;
+package gir.example;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -6,11 +6,11 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-import zam.Zam;
-import zam.delta.Patch;
-import zam.git.Git;
-import zam.io.FileUtil;
-import zam.ruby.Ruby;
+import gir.Zam;
+import gir.delta.Patch;
+import gir.git.Git;
+import gir.io.FileUtil;
+import gir.ruby.Ruby;
 
 public final class Example1
 {
@@ -18,7 +18,7 @@ public final class Example1
     throws Exception
   {
     final HashMap<String, Map<String, Long>> statistics = new HashMap<>();
-    final Path workingDirectory = Paths.get( "/Users/peter/Code/zam" );
+    final Path workingDirectory = Paths.get( "/Users/peter/Code/gir" );
     FileUtil.inDirectory( workingDirectory, () -> {
       Git.clone( "https://github.com/react4j/react4j-todomvc.git", "react4j-todomvc" );
       final Path appDirectory = workingDirectory.resolve( "react4j-todomvc" );

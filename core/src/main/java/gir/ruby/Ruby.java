@@ -1,9 +1,9 @@
-package zam.ruby;
+package gir.ruby;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.Nonnull;
-import zam.io.Exec;
+import gir.io.Exec;
 
 public final class Ruby
 {

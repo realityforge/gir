@@ -1,4 +1,4 @@
-package zam;
+package gir;
 
 @FunctionalInterface
 public interface Task

@@ -1,4 +1,4 @@
-package zam.io;
+package gir.io;
 
 import java.util.Objects;
 import javax.annotation.Nonnull;

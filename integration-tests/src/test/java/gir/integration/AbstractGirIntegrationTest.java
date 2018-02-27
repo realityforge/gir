@@ -1,10 +1,10 @@
-package zam.integration;
+package gir.integration;
 
 import org.realityforge.braincheck.BrainCheckTestUtil;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-public abstract class AbstractZamIntegrationTest
+public abstract class AbstractGirIntegrationTest
 {
   @BeforeMethod
   protected void beforeTest()

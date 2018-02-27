@@ -1,11 +1,11 @@
-package zam.delta;
+package gir.delta;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Function;
 import javax.annotation.Nonnull;
-import zam.ZamException;
+import gir.ZamException;
 
 public final class Patch
 {

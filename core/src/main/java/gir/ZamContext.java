@@ -1,4 +1,4 @@
-package zam;
+package gir;
 
 import java.io.Closeable;
 import java.io.IOException;

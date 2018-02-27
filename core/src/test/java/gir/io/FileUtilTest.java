@@ -1,13 +1,13 @@
-package zam.io;
+package gir.io;
 
 import java.io.File;
 import java.nio.file.Path;
 import org.testng.annotations.Test;
-import zam.AbstractZamTest;
+import gir.AbstractGirTest;
 import static org.testng.Assert.*;
 
 public class FileUtilTest
-  extends AbstractZamTest
+  extends AbstractGirTest
 {
   @Test
   public void currentDirectory()

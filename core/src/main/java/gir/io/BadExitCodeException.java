@@ -1,10 +1,10 @@
-package zam.io;
+package gir.io;
 
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import zam.ZamException;
+import gir.ZamException;
 
 public class BadExitCodeException
   extends ZamException

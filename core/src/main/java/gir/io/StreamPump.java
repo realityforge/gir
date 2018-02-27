@@ -1,4 +1,4 @@
-package zam.io;
+package gir.io;
 
 import java.io.IOException;
 import java.io.InputStream;

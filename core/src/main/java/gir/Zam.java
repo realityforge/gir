@@ -1,4 +1,4 @@
-package zam;
+package gir;
 
 public final class Zam
 {

@@ -1,4 +1,4 @@
-package zam.git;
+package gir.git;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import zam.io.Exec;
-import zam.io.FileUtil;
+import gir.io.Exec;
+import gir.io.FileUtil;
 
 public final class Git
 {

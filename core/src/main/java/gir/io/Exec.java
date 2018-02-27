@@ -1,4 +1,4 @@
-package zam.io;
+package gir.io;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,8 +13,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import zam.Zam;
-import zam.ZamException;
+import gir.Zam;
+import gir.ZamException;
 
 public final class Exec
 {

@@ -1,5 +1,6 @@
-package zam;
+package gir;
 
+import gir.io.FileUtil;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -9,10 +10,9 @@ import org.realityforge.braincheck.BrainCheckTestUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import zam.io.FileUtil;
 import static org.testng.Assert.*;
 
-public abstract class AbstractZamTest
+public abstract class AbstractGirTest
 {
   @BeforeMethod
   protected void beforeTest()
@@ -62,7 +62,7 @@ public abstract class AbstractZamTest
   protected final File createTempDirectory()
     throws IOException
   {
-    final File file = File.createTempFile( "zam", "test" );
+    final File file = File.createTempFile( "gir", "test" );
     assertTrue( file.delete() );
     assertTrue( file.mkdirs() );
     return file;
