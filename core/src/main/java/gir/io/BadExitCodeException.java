@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import gir.ZamException;
+import gir.GirException;
 
 public class BadExitCodeException
-  extends ZamException
+  extends GirException
 {
   @Nonnull
   private final List<String> _command;

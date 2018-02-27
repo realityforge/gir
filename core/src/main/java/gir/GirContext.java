@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javax.annotation.Nonnull;
 
-public final class ZamContext
+public final class GirContext
   implements Closeable
 {
   private final ExecutorService _executorService = Executors.newCachedThreadPool();

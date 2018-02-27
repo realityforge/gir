@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-import gir.Zam;
+import gir.Gir;
 import gir.delta.Patch;
 import gir.git.Git;
 import gir.io.FileUtil;
@@ -58,6 +58,6 @@ public final class Example1
       System.out.println( branch + ": " + branchStatistics.getValue() );
     }
 
-    Zam.context().close();
+    Gir.context().close();
   }
 }

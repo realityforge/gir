@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import gir.Task;
-import gir.ZamException;
+import gir.GirException;
 
 public final class FileUtil
 {
@@ -71,7 +71,7 @@ public final class FileUtil
     }
     catch ( final IOException e )
     {
-      throw new ZamException( "Failure to delete directory: " + directory, e );
+      throw new GirException( "Failure to delete directory: " + directory, e );
     }
   }
 

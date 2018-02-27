@@ -1,11 +1,11 @@
 package gir.delta;
 
+import gir.GirException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Function;
 import javax.annotation.Nonnull;
-import gir.ZamException;
 
 public final class Patch
 {
@@ -35,7 +35,7 @@ public final class Patch
         }
         catch ( final IOException e )
         {
-          throw new ZamException( "Error writing file '" + file + "' after file patched", e );
+          throw new GirException( "Error writing file '" + file + "' after file patched", e );
         }
         return true;
       }
@@ -52,7 +52,7 @@ public final class Patch
     }
     catch ( IOException e )
     {
-      throw new ZamException( "Error reading file '" + file + "' that attempting to patch", e );
+      throw new GirException( "Error reading file '" + file + "' that attempting to patch", e );
     }
   }
 }

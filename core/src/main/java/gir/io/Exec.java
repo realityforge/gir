@@ -13,8 +13,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import gir.Zam;
-import gir.ZamException;
+import gir.Gir;
+import gir.GirException;
 
 public final class Exec
 {
@@ -121,7 +121,7 @@ public final class Exec
     }
     catch ( final InterruptedException | ExecutionException e )
     {
-      throw new ZamException( "Failure to extract process output", e );
+      throw new GirException( "Failure to extract process output", e );
     }
     if ( null != expectedExitCode && exitCode != expectedExitCode )
     {
@@ -136,7 +136,7 @@ public final class Exec
   {
     final ByteArrayOutputStream baos = new ByteArrayOutputStream();
     final BufferedOutputStream outputStream = new BufferedOutputStream( baos );
-    final Future<?> future = Zam.context().run( new StreamPump( process.getInputStream(), outputStream ) );
+    final Future<?> future = Gir.context().run( new StreamPump( process.getInputStream(), outputStream ) );
     try
     {
       future.get();
