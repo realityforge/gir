@@ -48,4 +48,14 @@ public class BadExitCodeException
   {
     return _output;
   }
+
+  @Override
+  public String toString()
+  {
+    final String output = getOutput();
+    return "Error executing command: " + getCommand() +
+           "\n\tExpected Exitcode: " + getExpectedExitCode() +
+           "\n\tActual Exitcode: " + getActualExitCode() +
+           "\nOutput:\n" + ( null == output ? "" : output );
+  }
 }
