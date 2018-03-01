@@ -146,11 +146,11 @@ public final class Exec
     try
     {
       future.get();
-      result.complete( baos.toString() );
     }
     catch ( final InterruptedException | ExecutionException ignored )
     {
       //ignore exception
     }
+    result.complete( baos.toString() );
   }
 }
