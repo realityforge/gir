@@ -99,6 +99,12 @@ public final class Exec
   }
 
   @Nonnull
+  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
+  {
+    return exec( action, null );
+  }
+
+  @Nonnull
   private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
                                    @Nullable final Consumer<Process> processHandler )
   {
@@ -123,12 +129,6 @@ public final class Exec
     {
       throw new ErrorWaitingForProcessException( builder.command(), ie );
     }
-  }
-
-  @Nonnull
-  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
-  {
-    return exec( action, null );
   }
 
   /**
