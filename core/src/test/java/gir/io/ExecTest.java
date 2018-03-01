@@ -20,4 +20,18 @@ public class ExecTest
     assertEquals( command.get( 0 ), "echo" );
     assertEquals( command.get( 1 ), "hi" );
   }
+
+  @Test
+  public void cmd_withNulls()
+    throws Exception
+  {
+    final ProcessBuilder builder = new ProcessBuilder();
+    Exec.cmd( builder, "git", "push", null, "origin" );
+
+    final List<String> command = builder.command();
+    assertEquals( command.size(), 3 );
+    assertEquals( command.get( 0 ), "git" );
+    assertEquals( command.get( 1 ), "push" );
+    assertEquals( command.get( 2 ), "origin" );
+  }
 }
