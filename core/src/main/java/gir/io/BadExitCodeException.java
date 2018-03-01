@@ -1,10 +1,10 @@
 package gir.io;
 
+import gir.GirException;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import gir.GirException;
 
 public class BadExitCodeException
   extends GirException
