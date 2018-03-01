@@ -22,39 +22,6 @@ public final class Exec
   {
   }
 
-  @Nonnull
-  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
-                                   @Nullable final Consumer<Process> processHandler )
-  {
-    final ProcessBuilder builder = new ProcessBuilder();
-    builder.directory( FileUtil.getCurrentDirectory().toFile() );
-    action.accept( builder );
-    try
-    {
-      final Process process = builder.start();
-      if ( null != processHandler )
-      {
-        processHandler.accept( process );
-      }
-      final int exitCode = process.waitFor();
-      return new ExecResults( builder, process, exitCode );
-    }
-    catch ( final IOException ioe )
-    {
-      throw new ErrorStartingProcessException( builder.command(), ioe );
-    }
-    catch ( final InterruptedException ie )
-    {
-      throw new ErrorWaitingForProcessException( builder.command(), ie );
-    }
-  }
-
-  @Nonnull
-  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
-  {
-    return exec( action, null );
-  }
-
   /**
    * Configure ProcessBuilder with specified command.
    * If any arguments are null then they are skipped when building up commands.
@@ -129,6 +96,39 @@ public final class Exec
     }
 
     return results.getOutput();
+  }
+
+  @Nonnull
+  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
+                                   @Nullable final Consumer<Process> processHandler )
+  {
+    final ProcessBuilder builder = new ProcessBuilder();
+    builder.directory( FileUtil.getCurrentDirectory().toFile() );
+    action.accept( builder );
+    try
+    {
+      final Process process = builder.start();
+      if ( null != processHandler )
+      {
+        processHandler.accept( process );
+      }
+      final int exitCode = process.waitFor();
+      return new ExecResults( builder, process, exitCode );
+    }
+    catch ( final IOException ioe )
+    {
+      throw new ErrorStartingProcessException( builder.command(), ioe );
+    }
+    catch ( final InterruptedException ie )
+    {
+      throw new ErrorWaitingForProcessException( builder.command(), ie );
+    }
+  }
+
+  @Nonnull
+  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
+  {
+    return exec( action, null );
   }
 
   /**
