@@ -1,5 +1,7 @@
 package gir.io;
 
+import gir.Gir;
+import gir.GirException;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,8 +15,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import gir.Gir;
-import gir.GirException;
 
 public final class Exec
 {
