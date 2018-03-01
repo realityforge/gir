@@ -9,6 +9,10 @@ public final class IoUtil
 {
   public static final int DEFAULT_BUFFER_SIZE = 2 * 1024;
 
+  private IoUtil()
+  {
+  }
+
   public static void copy( @Nonnull final InputStream input, @Nonnull final OutputStream output )
     throws IOException
   {
