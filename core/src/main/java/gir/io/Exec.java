@@ -131,6 +131,12 @@ public final class Exec
     return results.getOutput();
   }
 
+  /**
+   * Pump the standard output from the process to the result future.
+   *
+   * @param process the process being monitored.
+   * @param result  the future that output is pushed to.
+   */
   private static void pumpOutputToResult( @Nonnull final CompletableFuture<String> result,
                                           @Nonnull final Process process )
   {
