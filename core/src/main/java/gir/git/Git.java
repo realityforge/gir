@@ -124,6 +124,19 @@ public final class Git
       .collect( Collectors.toList() );
   }
 
+  /**
+   * Return the remote tracking branches.
+   *
+   * @return the remote tracking branches.
+   */
+  public static List<String> remoteTrackingBranches()
+  {
+    return Arrays
+      .stream( Exec.capture( "git", "branch", "-r" ).split( "\n" ) )
+      .map( line -> line.substring( 2 ) )
+      .collect( Collectors.toList() );
+  }
+
   public static void resetBranch()
   {
     resetBranch( null );
