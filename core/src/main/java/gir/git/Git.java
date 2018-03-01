@@ -180,7 +180,7 @@ public final class Git
 
   public static void deleteBranch( @Nonnull final String branch )
   {
-    deleteBranch( branch, false );
+    deleteBranch( branch, true );
   }
 
   public static void deleteBranch( @Nonnull final String branch, final boolean force )
