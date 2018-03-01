@@ -1,5 +1,8 @@
 package gir.ruby;
 
+import gir.delta.Patch;
+import gir.git.Git;
+import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
@@ -52,5 +55,30 @@ public final class Buildr
       return sb.toString();
     }
     return content;
+  }
+
+  /**
+   * Modify the <code>build.yaml</code> file in the specified directory, updating all artifacts with the
+   * specified group to the specified version. If the <code>build.yaml</code> file does not exist or the
+   * dependency does not exist in the <code>build.yaml</code> file then no action will be taken. Otherwise
+   * the <code>build.yaml</code> file will be modified and the changed version committed to git.
+   *
+   * @param directory  the directory potentially containing the build file.
+   * @param group      the group of the maven artifacts to process.
+   * @param newVersion the new version of the maven artifacts.
+   * @return true if a change was made, false otherwise.
+   */
+  public static boolean patchBuildYmlDependency( @Nonnull final Path directory,
+                                                 @Nonnull final String group,
+                                                 @Nonnull final String newVersion )
+  {
+    final Path file = directory.resolve( "build.yaml" );
+    if ( file.toFile().exists() && Patch.file( file, c -> patchMavenCoordinates( c, group, newVersion ) ) )
+    {
+      Git.add( file.toString() );
+      Git.commit( "Update the '" + group + "' dependencies to version '" + newVersion + "'" );
+      return true;
+    }
+    return false;
   }
 }
