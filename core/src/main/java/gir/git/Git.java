@@ -169,7 +169,7 @@ public final class Git
       createUnlessPresent &&
       branches( true )
         .stream()
-        .anyMatch( b -> b.equals( branch ) && b.equals( "remotes/origin/" + branch ) );
+        .noneMatch( b -> b.equals( branch ) && b.equals( "remotes/origin/" + branch ) );
     Exec.capture( "git", "checkout", create ? "-b" : null, branch );
   }
 
