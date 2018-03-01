@@ -98,12 +98,28 @@ public final class Exec
     return results.getOutput();
   }
 
+  /**
+   * Low level utility for executing a process.
+   * This method will return when the process completes.
+   *
+   * @param action the callback responsible for setting up ProcessBuilder.
+   * @return the results of the execution.
+   * @see #exec(Consumer, Consumer)
+   */
   @Nonnull
   private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
   {
     return exec( action, null );
   }
 
+  /**
+   * Low level utility for executing a process.
+   * This method will return when the process completes.
+   *
+   * @param action         the callback responsible for setting up ProcessBuilder.
+   * @param processHandler the callback passed a process.
+   * @return the results of the execution.
+   */
   @Nonnull
   private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
                                    @Nullable final Consumer<Process> processHandler )
