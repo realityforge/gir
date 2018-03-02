@@ -40,6 +40,26 @@ public final class Exec
   }
 
   /**
+   * Execute a command, attach output to current processes output and expect 0 exit code.
+   *
+   * @param args the strings that make up command. If a null parameter is passed, it is skipped.
+   */
+  public static void system( @Nonnull final String... args )
+  {
+    system( b -> cmd( b, args ) );
+  }
+
+  /**
+   * Execute a command, attach output to current processes output and expect 0 exit code.
+   *
+   * @param action the callback responsible for setting up ProcessBuilder.
+   */
+  public static void system( @Nonnull final Consumer<ProcessBuilder> action )
+  {
+    system( action, 0 );
+  }
+
+  /**
    * Execute a command and attach output to current processes output.
    *
    * @param action           the callback responsible for setting up ProcessBuilder.
@@ -58,26 +78,6 @@ public final class Exec
     {
       throw new BadExitCodeException( results.getBuilder().command(), expectedExitCode, exitCode, results.getOutput() );
     }
-  }
-
-  /**
-   * Execute a command, attach output to current processes output and expect 0 exit code.
-   *
-   * @param action the callback responsible for setting up ProcessBuilder.
-   */
-  public static void system( @Nonnull final Consumer<ProcessBuilder> action )
-  {
-    system( action, 0 );
-  }
-
-  /**
-   * Execute a command, attach output to current processes output and expect 0 exit code.
-   *
-   * @param args the strings that make up command. If a null parameter is passed, it is skipped.
-   */
-  public static void system( @Nonnull final String... args )
-  {
-    system( b -> cmd( b, args ) );
   }
 
   /**
