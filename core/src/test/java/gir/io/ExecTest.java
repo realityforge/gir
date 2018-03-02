@@ -77,7 +77,7 @@ public class ExecTest
   }
 
   @Test
-  public void exec_threadInteruptedProcess()
+  public void exec_threadInterruptedProcess()
     throws Exception
   {
     final Thread thread = Thread.currentThread();
