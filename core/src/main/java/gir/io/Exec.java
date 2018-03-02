@@ -107,7 +107,7 @@ public final class Exec
    * @see #exec(Consumer, Consumer)
    */
   @Nonnull
-  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
+  static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
   {
     return exec( action, null );
   }
@@ -121,8 +121,8 @@ public final class Exec
    * @return the results of the execution.
    */
   @Nonnull
-  private static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
-                                   @Nullable final Consumer<Process> processHandler )
+  static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
+                           @Nullable final Consumer<Process> processHandler )
   {
     final ProcessBuilder builder = new ProcessBuilder();
     builder.directory( FileUtil.getCurrentDirectory().toFile() );
