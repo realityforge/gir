@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * Utility methods for invoking native commands.
+ */
 public final class Exec
 {
   private Exec()
@@ -36,6 +39,12 @@ public final class Exec
                        .collect( Collectors.toCollection( ArrayList::new ) ) );
   }
 
+  /**
+   * Execute a command and attach output to current processes output.
+   *
+   * @param action           the callback responsible for setting up ProcessBuilder.
+   * @param expectedExitCode the expected exitCode if the process.
+   */
   public static void system( @Nonnull final Consumer<ProcessBuilder> action,
                              @Nullable final Integer expectedExitCode )
   {
@@ -51,26 +60,56 @@ public final class Exec
     }
   }
 
+  /**
+   * Execute a command, attach output to current processes output and expect 0 exit code.
+   *
+   * @param action the callback responsible for setting up ProcessBuilder.
+   */
   public static void system( @Nonnull final Consumer<ProcessBuilder> action )
   {
     system( action, 0 );
   }
 
+  /**
+   * Execute a command, attach output to current processes output and expect 0 exit code.
+   *
+   * @param args the strings that make up command. If a null parameter is passed, it is skipped.
+   */
   public static void system( @Nonnull final String... args )
   {
     system( b -> cmd( b, args ) );
   }
 
+  /**
+   * Execute a command, capture the output and expect a 0 exit code.
+   *
+   * @param args the strings that make up command. If a null parameter is passed, it is skipped.
+   * @return the output of the command.
+   */
   public static String capture( @Nonnull final String... args )
   {
     return capture( b -> cmd( b, args ) );
   }
 
+  /**
+   * Execute a command, capture the output and expect a 0 exit code.
+   *
+   * @param action the callback responsible for setting up ProcessBuilder.
+   * @return the output of the command.
+   */
   public static String capture( @Nonnull final Consumer<ProcessBuilder> action )
   {
     return capture( action, 0 );
   }
 
+  /**
+   * Execute a command and capture the output.
+   *
+   * @param action           the callback responsible for setting up ProcessBuilder.
+   * @param expectedExitCode the expected exitCode if the process.
+   * @return the output of the command.
+   */
+  @Nonnull
   public static String capture( @Nonnull final Consumer<ProcessBuilder> action,
                                 @Nullable final Integer expectedExitCode )
   {
@@ -90,12 +129,13 @@ public final class Exec
     {
       throw new GirException( "Failure to extract process output", e );
     }
+    final String output = results.getOutput();
     if ( null != expectedExitCode && exitCode != expectedExitCode )
     {
-      throw new BadExitCodeException( results.getBuilder().command(), expectedExitCode, exitCode, results.getOutput() );
+      throw new BadExitCodeException( results.getBuilder().command(), expectedExitCode, exitCode, output );
     }
-
-    return results.getOutput();
+    assert null != output;
+    return output;
   }
 
   /**
