@@ -1,9 +1,9 @@
 package gir.io;
 
+import gir.GirException;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import gir.GirException;
 
 public class ErrorWaitingForProcessException
   extends GirException

@@ -1,5 +1,7 @@
 package gir.io;
 
+import gir.GirException;
+import gir.Task;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,8 +10,6 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import gir.Task;
-import gir.GirException;
 
 public final class FileUtil
 {

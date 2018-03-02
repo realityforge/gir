@@ -1,16 +1,16 @@
 package gir.example;
 
+import gir.Gir;
+import gir.delta.Patch;
+import gir.git.Git;
+import gir.io.FileUtil;
+import gir.ruby.Ruby;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
-import gir.Gir;
-import gir.delta.Patch;
-import gir.git.Git;
-import gir.io.FileUtil;
-import gir.ruby.Ruby;
 
 public final class Example1
 {

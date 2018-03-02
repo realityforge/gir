@@ -1,9 +1,9 @@
 package gir.ruby;
 
+import gir.io.Exec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.annotation.Nonnull;
-import gir.io.Exec;
 
 public final class Ruby
 {
