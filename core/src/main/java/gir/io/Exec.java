@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -68,15 +69,16 @@ public final class Exec
   public static void system( @Nonnull final Consumer<ProcessBuilder> action,
                              @Nullable final Integer expectedExitCode )
   {
+    final AtomicReference<ProcessBuilder> builderRef = new AtomicReference<>();
     final Consumer<ProcessBuilder> builderAction = builder -> {
+      builderRef.set( builder );
       builder.inheritIO();
       action.accept( builder );
     };
-    final ExecResults results = exec( builderAction );
-    final int exitCode = results.getExitCode();
+    final int exitCode = exec( builderAction );
     if ( null != expectedExitCode && exitCode != expectedExitCode )
     {
-      throw new BadExitCodeException( results.getBuilder().command(), expectedExitCode, exitCode, results.getOutput() );
+      throw new BadExitCodeException( builderRef.get().command(), expectedExitCode, exitCode, null );
     }
   }
 
@@ -113,28 +115,28 @@ public final class Exec
   public static String capture( @Nonnull final Consumer<ProcessBuilder> action,
                                 @Nullable final Integer expectedExitCode )
   {
+    final AtomicReference<ProcessBuilder> builderRef = new AtomicReference<>();
     final CompletableFuture<String> result = new CompletableFuture<>();
     final Consumer<ProcessBuilder> builderAction = builder -> {
+      builderRef.set( builder );
       builder.redirectErrorStream( true );
       action.accept( builder );
     };
-    final ExecResults results = exec( builderAction, process -> pumpOutputToResult( result, process ) );
-    final int exitCode = results.getExitCode();
+    final int exitCode = exec( builderAction, process -> pumpOutputToResult( result, process ) );
 
+    final String output;
     try
     {
-      results.setOutput( result.get() );
+      output = result.get();
     }
     catch ( final InterruptedException | ExecutionException e )
     {
       throw new GirException( "Failure to extract process output", e );
     }
-    final String output = results.getOutput();
     if ( null != expectedExitCode && exitCode != expectedExitCode )
     {
-      throw new BadExitCodeException( results.getBuilder().command(), expectedExitCode, exitCode, output );
+      throw new BadExitCodeException( builderRef.get().command(), expectedExitCode, exitCode, output );
     }
-    assert null != output;
     return output;
   }
 
@@ -143,11 +145,10 @@ public final class Exec
    * This method will return when the process completes.
    *
    * @param action the callback responsible for setting up ProcessBuilder.
-   * @return the results of the execution.
+   * @return the exitCode.
    * @see #exec(Consumer, Consumer)
    */
-  @Nonnull
-  static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action )
+  static int exec( @Nonnull final Consumer<ProcessBuilder> action )
   {
     return exec( action, null );
   }
@@ -158,11 +159,9 @@ public final class Exec
    *
    * @param action         the callback responsible for setting up ProcessBuilder.
    * @param processHandler the callback passed a process.
-   * @return the results of the execution.
+   * @return the exitCode.
    */
-  @Nonnull
-  static ExecResults exec( @Nonnull final Consumer<ProcessBuilder> action,
-                           @Nullable final Consumer<Process> processHandler )
+  static int exec( @Nonnull final Consumer<ProcessBuilder> action, @Nullable final Consumer<Process> processHandler )
   {
     final ProcessBuilder builder = new ProcessBuilder();
     builder.directory( FileUtil.getCurrentDirectory().toFile() );
@@ -174,8 +173,7 @@ public final class Exec
       {
         processHandler.accept( process );
       }
-      final int exitCode = process.waitFor();
-      return new ExecResults( builder, process, exitCode );
+      return process.waitFor();
     }
     catch ( final IOException ioe )
     {

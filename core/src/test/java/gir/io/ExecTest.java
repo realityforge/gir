@@ -40,49 +40,27 @@ public class ExecTest
   public void exec()
     throws Exception
   {
-    final ExecResults results = Exec.exec( builder -> builder.command( "echo", "hi" ) );
+    final int exitCode = Exec.exec( builder -> builder.command( "echo", "hi" ) );
 
-    assertEquals( results.getExitCode(), 0 );
-    assertEquals( results.getOutput(), null );
-
-    final ProcessBuilder builder = results.getBuilder();
-    assertNotNull( builder );
-    final List<String> command = builder.command();
-    assertEquals( command.size(), 2 );
-    assertEquals( command.get( 0 ), "echo" );
-    assertEquals( command.get( 1 ), "hi" );
+    assertEquals( exitCode, 0 );
   }
 
   @Test
   public void exec_withNonZeroExitCode()
     throws Exception
   {
-    final ExecResults results = Exec.exec( builder -> builder.command( "false" ) );
+    final int exitCode = Exec.exec( builder -> builder.command( "false" ) );
 
-    assertEquals( results.getExitCode(), 1 );
-    assertEquals( results.getOutput(), null );
-
-    final ProcessBuilder builder = results.getBuilder();
-    assertNotNull( builder );
-    final List<String> command = builder.command();
-    assertEquals( command.size(), 1 );
-    assertEquals( command.get( 0 ), "false" );
+    assertEquals( exitCode, 1 );
   }
 
   @Test
   public void exec_withProcessAction()
     throws Exception
   {
-    final ExecResults results = Exec.exec( builder -> builder.command( "false" ), Assert::assertNotNull );
+    final int exitCode = Exec.exec( builder -> builder.command( "false" ), Assert::assertNotNull );
 
-    assertEquals( results.getExitCode(), 1 );
-    assertEquals( results.getOutput(), null );
-
-    final ProcessBuilder builder = results.getBuilder();
-    assertNotNull( builder );
-    final List<String> command = builder.command();
-    assertEquals( command.size(), 1 );
-    assertEquals( command.get( 0 ), "false" );
+    assertEquals( exitCode, 1 );
   }
 
   @Test
