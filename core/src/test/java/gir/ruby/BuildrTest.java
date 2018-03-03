@@ -33,6 +33,18 @@ public class BuildrTest
   }
 
   @Test
+  public void patchMavenCoordinates_NoMatch()
+    throws Exception
+  {
+    final String initialContent =
+      "artifacts:\n" +
+      "  braincheck: org.realityforge.braincheck:braincheck:jar:1.4.0";
+    final String group = "org.realityforge.other";
+    final String newContent = Buildr.patchMavenCoordinates( initialContent, group, "345" );
+    assertEquals( newContent, initialContent );
+  }
+
+  @Test
   public void patchMavenCoordinates_noTrailingContent()
     throws Exception
   {
