@@ -76,13 +76,20 @@ public final class FileUtil
   }
 
   public static void inDirectory( @Nonnull final Path directory, @Nonnull final Task action )
-    throws Exception
   {
     final Path initial = getCurrentDirectory();
     try
     {
       setCurrentDirectory( directory );
       action.call();
+    }
+    catch ( final RuntimeException | Error e )
+    {
+      throw e;
+    }
+    catch ( final Exception e )
+    {
+      throw new GirException( e );
     }
     finally
     {

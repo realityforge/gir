@@ -73,7 +73,6 @@ public final class Buildr
   public static boolean patchBuildYmlDependency( @Nonnull final Path directory,
                                                  @Nonnull final String group,
                                                  @Nonnull final String newVersion )
-    throws Exception
   {
     final Path file = directory.resolve( "build.yaml" );
     if ( file.toFile().exists() && Patch.file( file, c -> patchMavenCoordinates( c, group, newVersion ) ) )
