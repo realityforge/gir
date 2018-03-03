@@ -103,6 +103,35 @@ public class ExecTest
   }
 
   @Test
+  public void system()
+  {
+    Exec.system( "echo", "hello" );
+  }
+
+  @Test
+  public void system_doNotCareAboutExitCode()
+  {
+    Exec.system( b -> Exec.cmd( b, "bash", "-c", "echo hello; exit 2" ), null );
+  }
+
+  @Test
+  public void system_badExitStatus()
+  {
+    final BadExitCodeException exception =
+      expectThrows( BadExitCodeException.class,
+                    () -> Exec.system( b -> Exec.cmd( b, "bash", "-c", "exit 2" ) ) );
+
+    final List<String> command = exception.getCommand();
+    assertEquals( exception.getActualExitCode(), 2 );
+    assertEquals( exception.getExpectedExitCode(), 0 );
+    assertEquals( exception.getOutput(), null );
+    assertEquals( command.size(), 3 );
+    assertEquals( command.get( 0 ), "bash" );
+    assertEquals( command.get( 1 ), "-c" );
+    assertEquals( command.get( 2 ), "exit 2" );
+  }
+
+  @Test
   public void capture()
   {
     final String output = Exec.capture( "echo", "hello" );
