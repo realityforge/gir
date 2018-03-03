@@ -32,15 +32,31 @@ define 'gir' do
     compile.with PROVIDED_DEPS,
                  :braincheck
 
-    test.options[:properties] = GIR_TEST_OPTIONS
-    test.options[:java_args] = ['-ea']
+    package(:jar)
+    package(:sources)
+    package(:javadoc)
+  end
+
+  desc 'Gir QA util'
+  define 'qa-support' do
+    compile.with project('core').package(:jar),
+                 project('core').compile.dependencies,
+                 :testng
 
     package(:jar)
     package(:sources)
     package(:javadoc)
+  end
 
-    test.using :testng
-    test.compile.with TEST_DEPS
+  desc 'Gir QA util'
+  define 'core-tests' do
+    test.compile.with project('core').package(:jar),
+                      project('core').compile.dependencies,
+                      project('qa-support').package(:jar),
+                      project('qa-support').compile.dependencies
+
+    test.options[:properties] = GIR_TEST_OPTIONS
+    test.options[:java_args] = ['-ea']
   end
 
   desc 'Gir Integration Tests'
