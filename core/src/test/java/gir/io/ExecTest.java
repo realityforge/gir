@@ -101,4 +101,67 @@ public class ExecTest
     assertEquals( command.get( 0 ), "sleep" );
     assertEquals( command.get( 1 ), "10000" );
   }
+
+  @Test
+  public void capture()
+  {
+    final String output = Exec.capture( "echo", "hello" );
+    assertEquals( output, "hello\n" );
+  }
+
+  @Test
+  public void capture_doNotCareAboutExitCode()
+  {
+    final String output = Exec.capture( b -> Exec.cmd( b, "bash", "-c", "echo hello; exit 2" ), null );
+    assertEquals( output, "hello\n" );
+  }
+
+  @Test
+  public void capture_badExitStatus()
+    throws Exception
+  {
+    final BadExitCodeException exception =
+      expectThrows( BadExitCodeException.class,
+                    () -> Exec.capture( b -> Exec.cmd( b, "bash", "-c", "exit 2" ) ) );
+
+    final List<String> command = exception.getCommand();
+    assertEquals( exception.getActualExitCode(), 2 );
+    assertEquals( exception.getExpectedExitCode(), 0 );
+    assertEquals( exception.getOutput(), "" );
+    assertEquals( command.size(), 3 );
+    assertEquals( command.get( 0 ), "bash" );
+    assertEquals( command.get( 1 ), "-c" );
+    assertEquals( command.get( 2 ), "exit 2" );
+  }
+
+  @Test
+  public void capture_badExitStatusAndOutput()
+    throws Exception
+  {
+    final BadExitCodeException exception =
+      expectThrows( BadExitCodeException.class,
+                    () -> Exec.capture( b -> Exec.cmd( b, "bash", "-c", "echo hi; exit 2" ) ) );
+
+    final List<String> command = exception.getCommand();
+    assertEquals( exception.getActualExitCode(), 2 );
+    assertEquals( exception.getExpectedExitCode(), 0 );
+    assertEquals( exception.getOutput(), "hi\n" );
+    assertEquals( command.size(), 3 );
+    assertEquals( command.get( 0 ), "bash" );
+    assertEquals( command.get( 1 ), "-c" );
+    assertEquals( command.get( 2 ), "echo hi; exit 2" );
+  }
+
+  @Test
+  public void capture_errorStartingProcess()
+    throws Exception
+  {
+    final ErrorStartingProcessException exception =
+      expectThrows( ErrorStartingProcessException.class,
+                    () -> Exec.capture( "no_exist_cmd" ) );
+
+    final List<String> command = exception.getCommand();
+    assertEquals( command.size(), 1 );
+    assertEquals( command.get( 0 ), "no_exist_cmd" );
+  }
 }
