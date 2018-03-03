@@ -2,6 +2,7 @@ package gir.ruby;
 
 import gir.delta.Patch;
 import gir.git.Git;
+import gir.io.FileUtil;
 import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,12 +72,15 @@ public final class Buildr
   public static boolean patchBuildYmlDependency( @Nonnull final Path directory,
                                                  @Nonnull final String group,
                                                  @Nonnull final String newVersion )
+    throws Exception
   {
     final Path file = directory.resolve( "build.yaml" );
     if ( file.toFile().exists() && Patch.file( file, c -> patchMavenCoordinates( c, group, newVersion ) ) )
     {
-      Git.add( file.toString() );
-      Git.commit( "Update the '" + group + "' dependencies to version '" + newVersion + "'" );
+      FileUtil.inDirectory( directory, () -> {
+        Git.add( file.toString() );
+        Git.commit( "Update the '" + group + "' dependencies to version '" + newVersion + "'" );
+      } );
       return true;
     }
     return false;
