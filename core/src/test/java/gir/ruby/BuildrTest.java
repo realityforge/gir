@@ -1,6 +1,8 @@
 package gir.ruby;
 
 import gir.AbstractGirTest;
+import java.io.File;
+import java.nio.file.Files;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -77,5 +79,32 @@ public class BuildrTest
     final String group = "com.google.elemental2";
     final String newContent = Buildr.patchMavenCoordinates( initialContent, group, "3.2-RTC456" );
     assertEquals( newContent, expectedContent );
+  }
+
+  @Test
+  public void patchBuildYmlDependency()
+    throws Exception
+  {
+    final String initialContent =
+      "artifacts:\n" +
+      "  elemental2_core: com.google.elemental2:elemental2-core:jar:1.0.0-RC1\n" +
+      "  elemental2_dom: com.google.elemental2:elemental2-dom:jar:1.0.0-RC1\n" +
+      "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:1.0.0-RC1\n";
+    final String expectedContent =
+      "artifacts:\n" +
+      "  elemental2_core: com.google.elemental2:elemental2-core:jar:3.2-RTC456\n" +
+      "  elemental2_dom: com.google.elemental2:elemental2-dom:jar:3.2-RTC456\n" +
+      "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:3.2-RTC456\n";
+    final File repository =
+      createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
+
+    final String group = "com.google.elemental2";
+    final boolean patched = Buildr.patchBuildYmlDependency( repository.toPath(), group, "3.2-RTC456" );
+    assertEquals( patched, true );
+
+    assertCommitSubject( repository, "Update the 'com.google.elemental2' dependencies to version '3.2-RTC456'" );
+
+    final String output = new String( Files.readAllBytes( repository.toPath().resolve( "build.yaml" ) ) );
+    assertEquals( output, expectedContent );
   }
 }
