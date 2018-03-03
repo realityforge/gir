@@ -68,6 +68,7 @@ public final class Buildr
    * @param group      the group of the maven artifacts to process.
    * @param newVersion the new version of the maven artifacts.
    * @return true if a change was made, false otherwise.
+   * @throws Exception if an error occurs.
    */
   public static boolean patchBuildYmlDependency( @Nonnull final Path directory,
                                                  @Nonnull final String group,
