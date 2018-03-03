@@ -1,9 +1,10 @@
 package gir.io;
 
+import gir.AbstractGirTest;
+import gir.TestUtil;
 import java.io.File;
 import java.nio.file.Path;
 import org.testng.annotations.Test;
-import gir.AbstractGirTest;
 import static org.testng.Assert.*;
 
 public class FileUtilTest
@@ -15,7 +16,7 @@ public class FileUtilTest
   {
     assertEquals( FileUtil.getCurrentDirectory(), FileUtil.cwd() );
 
-    final File file = createTempDirectory();
+    final File file = TestUtil.createTempDirectory();
     final Path newDirectory = file.toPath();
     FileUtil.setCurrentDirectory( newDirectory );
 
@@ -28,7 +29,7 @@ public class FileUtilTest
   {
     final Path initialDirectory = FileUtil.getCurrentDirectory();
 
-    final File file = createTempDirectory();
+    final File file = TestUtil.createTempDirectory();
     final Path directory = file.toPath();
     assertEquals( FileUtil.getCurrentDirectory(), initialDirectory );
     FileUtil.inDirectory( directory, () -> assertEquals( FileUtil.getCurrentDirectory(), directory ) );

@@ -1,6 +1,7 @@
 package gir.ruby;
 
 import gir.AbstractGirTest;
+import gir.TestUtil;
 import java.io.File;
 import java.nio.file.Files;
 import org.testng.annotations.Test;
@@ -108,13 +109,14 @@ public class BuildrTest
       "  elemental2_dom: com.google.elemental2:elemental2-dom:jar:3.2-RTC456\n" +
       "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:3.2-RTC456\n";
     final File repository =
-      createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
+      TestUtil.createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
 
     final String group = "com.google.elemental2";
     final boolean patched = Buildr.patchBuildYmlDependency( repository.toPath(), group, "3.2-RTC456" );
     assertEquals( patched, true );
 
-    assertCommitSubject( repository, "Update the 'com.google.elemental2' dependencies to version '3.2-RTC456'" );
+    TestUtil.assertCommitSubject( repository,
+                                  "Update the 'com.google.elemental2' dependencies to version '3.2-RTC456'" );
 
     final String output = new String( Files.readAllBytes( repository.toPath().resolve( "build.yaml" ) ) );
     assertEquals( output, expectedContent );
@@ -131,7 +133,7 @@ public class BuildrTest
       "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:1.0.0-RC1\n";
 
     final File repository =
-      createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
+      TestUtil.createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
 
     final String group = "com.google.other";
     final boolean patched = Buildr.patchBuildYmlDependency( repository.toPath(), group, "3.2-RTC456" );
@@ -146,7 +148,7 @@ public class BuildrTest
     throws Exception
   {
     final File repository =
-      createGitRepository( d -> Files.write( d.toPath().resolve( "README.md" ), "Blah".getBytes() ) );
+      TestUtil.createGitRepository( d -> Files.write( d.toPath().resolve( "README.md" ), "Blah".getBytes() ) );
 
     final boolean patched =
       Buildr.patchBuildYmlDependency( repository.toPath(), "com.google.other", "3.2-RTC456" );
