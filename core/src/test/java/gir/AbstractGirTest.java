@@ -3,7 +3,6 @@ package gir;
 import gir.io.FileUtil;
 import java.io.File;
 import java.io.IOException;
-import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import org.realityforge.braincheck.BrainCheckTestUtil;
 import org.testng.annotations.AfterMethod;
@@ -38,7 +37,7 @@ public abstract class AbstractGirTest
   }
 
   @Nonnull
-  protected final File createGitRepository( @Nonnull final Consumer<File> action )
+  protected final File createGitRepository( @Nonnull final ThrowingConsumer<File> action )
     throws Exception
   {
     final File directory = createTempDirectory();
