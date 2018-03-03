@@ -129,7 +129,7 @@ public class BuildrTest
       "  elemental2_core: com.google.elemental2:elemental2-core:jar:1.0.0-RC1\n" +
       "  elemental2_dom: com.google.elemental2:elemental2-dom:jar:1.0.0-RC1\n" +
       "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:1.0.0-RC1\n";
-    ;
+
     final File repository =
       createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
 
