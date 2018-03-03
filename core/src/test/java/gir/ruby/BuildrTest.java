@@ -119,4 +119,37 @@ public class BuildrTest
     final String output = new String( Files.readAllBytes( repository.toPath().resolve( "build.yaml" ) ) );
     assertEquals( output, expectedContent );
   }
+
+  @Test
+  public void patchBuildYmlDependency_noMatch()
+    throws Exception
+  {
+    final String initialContent =
+      "artifacts:\n" +
+      "  elemental2_core: com.google.elemental2:elemental2-core:jar:1.0.0-RC1\n" +
+      "  elemental2_dom: com.google.elemental2:elemental2-dom:jar:1.0.0-RC1\n" +
+      "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:1.0.0-RC1\n";
+    ;
+    final File repository =
+      createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
+
+    final String group = "com.google.other";
+    final boolean patched = Buildr.patchBuildYmlDependency( repository.toPath(), group, "3.2-RTC456" );
+    assertEquals( patched, false );
+
+    final String output = new String( Files.readAllBytes( repository.toPath().resolve( "build.yaml" ) ) );
+    assertEquals( output, initialContent );
+  }
+
+  @Test
+  public void patchBuildYmlDependency_noFile()
+    throws Exception
+  {
+    final File repository =
+      createGitRepository( d -> Files.write( d.toPath().resolve( "README.md" ), "Blah".getBytes() ) );
+
+    final boolean patched =
+      Buildr.patchBuildYmlDependency( repository.toPath(), "com.google.other", "3.2-RTC456" );
+    assertEquals( patched, false );
+  }
 }
