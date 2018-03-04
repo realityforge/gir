@@ -23,7 +23,10 @@ public final class GirContext
    */
   public <V> Future<V> run( @Nonnull final Callable<V> action )
   {
-    assert !isClosed();
+    if ( _closed )
+    {
+      throw new GirException( "GirContext.run() invoked on closed context" );
+    }
     return _executorService.submit( action );
   }
 
@@ -35,7 +38,10 @@ public final class GirContext
    */
   public Future<?> run( @Nonnull final Runnable action )
   {
-    assert !isClosed();
+    if ( _closed )
+    {
+      throw new GirException( "GirContext.run() invoked on closed context" );
+    }
     return _executorService.submit( action );
   }
 
@@ -55,6 +61,10 @@ public final class GirContext
    */
   void close()
   {
+    if ( _closed )
+    {
+      throw new GirException( "GirContext.close() invoked on closed context" );
+    }
     _closed = true;
     _executorService.shutdown();
   }
