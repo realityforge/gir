@@ -18,6 +18,7 @@ public final class GirContext
   /**
    * Schedule an action to run asynchronously
    *
+   * @param <V>    the return type of action.
    * @param action the action to schedule.
    * @return the future where the result is returned.
    */

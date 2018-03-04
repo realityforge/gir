@@ -20,6 +20,7 @@ public final class Gir
    * Run the supplied Gir action.
    *
    * @param action the action.
+   * @throws Exception if action throws an error.
    */
   public static void go( @Nonnull final Task action )
     throws Exception
