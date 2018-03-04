@@ -5,29 +5,54 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javax.annotation.Nonnull;
+import org.realityforge.anodoc.TestOnly;
 
+/**
+ * Context associated with a particular Gir session.
+ */
 public final class GirContext
 {
   private final ExecutorService _executorService = Executors.newCachedThreadPool();
   private boolean _closed;
 
+  /**
+   * Schedule an action to run asynchronously
+   *
+   * @param action the action to schedule.
+   * @return the future where the result is returned.
+   */
   public <V> Future<V> run( @Nonnull final Callable<V> action )
   {
     assert !isClosed();
     return _executorService.submit( action );
   }
 
+  /**
+   * Schedule an action to run asynchronously
+   *
+   * @param action the action to schedule.
+   * @return the future that resolves when the action completes.
+   */
   public Future<?> run( @Nonnull final Runnable action )
   {
     assert !isClosed();
     return _executorService.submit( action );
   }
 
+  /**
+   * Return true if context has been closed.
+   *
+   * @return true if context has been closed.
+   */
   public boolean isClosed()
   {
     return _closed;
   }
 
+  /**
+   * Close the context.
+   * This will wait till any submitted tasks have completed before returning.
+   */
   void close()
   {
     _closed = true;
