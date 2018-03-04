@@ -44,7 +44,7 @@ public final class GirContext
    *
    * @return true if context has been closed.
    */
-  public boolean isClosed()
+  boolean isClosed()
   {
     return _closed;
   }
