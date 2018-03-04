@@ -1,5 +1,6 @@
 package gir;
 
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,6 +15,30 @@ public final class GirContext
 {
   private final ExecutorService _executorService = Executors.newCachedThreadPool();
   private boolean _closed;
+
+  @Nonnull
+  private Messenger _messenger = new StandardMessenger( StandardMessenger.INFO );
+
+  /**
+   * Return the messenger associated with the context.
+   *
+   * @return the messenger associated with the context.
+   */
+  @Nonnull
+  public Messenger getMessenger()
+  {
+    return _messenger;
+  }
+
+  /**
+   * Set the messenger associated with the context.
+   *
+   * @param messenger the messenger.
+   */
+  public void setMessenger( @Nonnull final Messenger messenger )
+  {
+    _messenger = Objects.requireNonNull( messenger );
+  }
 
   /**
    * Schedule an action to run asynchronously

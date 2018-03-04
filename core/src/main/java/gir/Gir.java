@@ -57,6 +57,17 @@ public final class Gir
     return c_context;
   }
 
+  /**
+   * Return the messenger associated with the context.
+   *
+   * @return the messenger associated with the context.
+   */
+  @Nonnull
+  public static Messenger messenger()
+  {
+    return context().getMessenger();
+  }
+
   @TestOnly
   static void setContext( @Nullable final GirContext context )
   {
