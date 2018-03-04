@@ -14,6 +14,7 @@ public abstract class AbstractGirTest
   {
     BrainCheckTestUtil.resetConfig( false );
     FileUtil.setCurrentDirectory( FileUtil.cwd() );
+    Gir.setContext( new GirContext() );
   }
 
   @AfterMethod

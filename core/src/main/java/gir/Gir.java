@@ -1,6 +1,8 @@
 package gir;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.realityforge.anodoc.TestOnly;
 
 /**
  * The top level class from which to access Gir facilities.
@@ -11,7 +13,32 @@ public final class Gir
   {
   }
 
-  private static GirContext c_context = new GirContext();
+  @Nullable
+  private static GirContext c_context;
+
+  /**
+   * Run the supplied Gir action.
+   *
+   * @param action the action.
+   */
+  public static void go( @Nonnull final Task action )
+    throws Exception
+  {
+    if ( null != c_context )
+    {
+      throw new GirException( "Gir.go() invocation nested in another go() invocation" );
+    }
+    c_context = new GirContext();
+    try
+    {
+      action.call();
+    }
+    finally
+    {
+      c_context.close();
+      c_context = null;
+    }
+  }
 
   /**
    * Return the current context.
@@ -22,7 +49,16 @@ public final class Gir
   @Nonnull
   public static GirContext context()
   {
-    assert null != c_context;
+    if ( null == c_context )
+    {
+      throw new GirException( "Gir.context() invocation outside the context of a Gir.go() action" );
+    }
     return c_context;
+  }
+
+  @TestOnly
+  static void setContext( @Nullable final GirContext context )
+  {
+    c_context = context;
   }
 }
