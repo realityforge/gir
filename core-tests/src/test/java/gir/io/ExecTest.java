@@ -1,6 +1,6 @@
 package gir.io;
 
-import gir.AbstractGirTest;
+import gir.test.util.AbstractGirTest;
 import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;

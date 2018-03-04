@@ -1,5 +1,7 @@
-package gir;
+package gir.test.util;
 
+import gir.GirContext;
+import gir.GirTestUtil;
 import gir.io.FileUtil;
 import org.realityforge.braincheck.BrainCheckTestUtil;
 import org.testng.annotations.AfterMethod;
@@ -14,7 +16,7 @@ public abstract class AbstractGirTest
   {
     BrainCheckTestUtil.resetConfig( false );
     FileUtil.setCurrentDirectory( FileUtil.cwd() );
-    Gir.setContext( new GirContext() );
+    GirTestUtil.setContext( new GirContext() );
   }
 
   @AfterMethod

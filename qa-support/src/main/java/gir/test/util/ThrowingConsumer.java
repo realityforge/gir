@@ -1,4 +1,4 @@
-package gir;
+package gir.test.util;
 
 @FunctionalInterface
 public interface ThrowingConsumer<T>

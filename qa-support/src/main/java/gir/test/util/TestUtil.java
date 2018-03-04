@@ -1,4 +1,4 @@
-package gir;
+package gir.test.util;
 
 import gir.io.Exec;
 import gir.io.FileUtil;

@@ -1,5 +1,6 @@
 package gir;
 
+import gir.test.util.AbstractGirTest;
 import java.util.concurrent.atomic.AtomicReference;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

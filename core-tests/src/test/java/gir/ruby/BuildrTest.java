@@ -1,7 +1,7 @@
 package gir.ruby;
 
-import gir.AbstractGirTest;
-import gir.TestUtil;
+import gir.test.util.AbstractGirTest;
+import gir.test.util.TestUtil;
 import java.io.File;
 import java.nio.file.Files;
 import org.testng.annotations.Test;

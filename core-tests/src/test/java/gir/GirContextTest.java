@@ -1,5 +1,6 @@
 package gir;
 
+import gir.test.util.AbstractGirTest;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;

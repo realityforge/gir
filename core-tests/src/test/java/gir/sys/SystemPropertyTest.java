@@ -1,7 +1,7 @@
 package gir.sys;
 
-import gir.AbstractGirTest;
 import gir.GirException;
+import gir.test.util.AbstractGirTest;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
