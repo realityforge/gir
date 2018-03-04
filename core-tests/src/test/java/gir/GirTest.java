@@ -15,7 +15,6 @@ public class GirTest
   {
     super.beforeTest();
     Gir.setContext( null );
-
   }
 
   @Test
