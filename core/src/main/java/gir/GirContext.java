@@ -1,7 +1,5 @@
 package gir;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,7 +7,6 @@ import java.util.concurrent.Future;
 import javax.annotation.Nonnull;
 
 public final class GirContext
-  implements Closeable
 {
   private final ExecutorService _executorService = Executors.newCachedThreadPool();
   private boolean _closed;
@@ -31,9 +28,7 @@ public final class GirContext
     return _closed;
   }
 
-  @Override
-  public void close()
-    throws IOException
+  void close()
   {
     _closed = true;
     _executorService.shutdown();
