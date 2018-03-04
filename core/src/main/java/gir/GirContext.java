@@ -68,4 +68,11 @@ public final class GirContext
     _closed = true;
     _executorService.shutdown();
   }
+
+  @TestOnly
+  @Nonnull
+  ExecutorService getExecutorService()
+  {
+    return _executorService;
+  }
 }
