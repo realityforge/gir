@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 public final class FileUtil
@@ -72,6 +73,37 @@ public final class FileUtil
     catch ( final IOException e )
     {
       throw new GirException( "Failure to delete directory: " + directory, e );
+    }
+  }
+
+  /**
+   * Copy the src directory to the dest directory.
+   *
+   * @param src  the source directory.
+   * @param dest the destination directory.
+   */
+  public static void copyDirectory( @Nonnull final Path src, @Nonnull final Path dest )
+  {
+    try
+    {
+      try ( final Stream<Path> stream = Files.walk( src ) )
+      {
+        stream.forEach( sourcePath -> {
+          try
+          {
+            final Path targetPath = dest.resolve( src.relativize( sourcePath ) );
+            Files.copy( sourcePath, targetPath );
+          }
+          catch ( final IOException ioe )
+          {
+            throw new GirException( ioe );
+          }
+        } );
+      }
+    }
+    catch ( final IOException ioe )
+    {
+      throw new GirException( ioe );
     }
   }
 
