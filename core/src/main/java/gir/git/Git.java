@@ -57,6 +57,11 @@ public final class Git
     }
   }
 
+  public static void merge( @Nonnull final String commit )
+  {
+    Exec.system( "git", "merge", commit );
+  }
+
   public static void fetch()
   {
     Exec.system( "git", "fetch", "--prune" );
