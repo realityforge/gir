@@ -3,6 +3,7 @@
 ### Unreleased
 
 * Extract a `Patch.patchAndCommitFile(...)` from `Buildr` utilities.
+* Start to import `Maven` utilities from downstream projects.
 
 ### [v0.02](https://github.com/realityforge/gir/tree/v0.02) (2018-03-06)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.01...v0.02)
