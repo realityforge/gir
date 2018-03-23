@@ -59,9 +59,8 @@ public final class Buildr
   }
 
   /**
-   * Modify the <code>build.yaml</code> file in the specified directory, updating all artifacts with the
-   * specified group to the specified version. If the <code>build.yaml</code> file does not exist or the
-   * dependency does not exist in the <code>build.yaml</code> file then no action will be taken. Otherwise
+   * Modify the <code>build.yaml</code> file in the specified directory. If the <code>build.yaml</code> file
+   * does not exist or the patch function produces no changes then no action will be taken. Otherwise
    * the <code>build.yaml</code> file will be modified and the changed version committed to git.
    *
    * @param directory             the directory potentially containing the build file.
