@@ -1,8 +1,6 @@
 package gir.ruby;
 
 import gir.delta.Patch;
-import gir.git.Git;
-import gir.io.FileUtil;
 import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -75,16 +73,10 @@ public final class Buildr
                                        @Nonnull final Supplier<String> commitMessageFunction,
                                        @Nonnull final Function<String, String> patchFunction )
   {
-    final Path file = directory.resolve( "build.yaml" );
-    if ( file.toFile().exists() && Patch.file( file, patchFunction ) )
-    {
-      FileUtil.inDirectory( directory, () -> {
-        Git.add( file.toString() );
-        Git.commit( commitMessageFunction.get() );
-      } );
-      return true;
-    }
-    return false;
+    return Patch.patchAndCommitFile( directory,
+                                     directory.resolve( "build.yaml" ),
+                                     commitMessageFunction,
+                                     patchFunction );
   }
 
   /**
