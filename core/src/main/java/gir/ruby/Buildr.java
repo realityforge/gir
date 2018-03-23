@@ -102,7 +102,8 @@ public final class Buildr
                                                  @Nonnull final String group,
                                                  @Nonnull final String newVersion )
   {
-    return patchBuildYml( directory, () -> "Update the '" + group + "' dependencies to version '" + newVersion + "'",
+    return patchBuildYml( directory,
+                          () -> "Update the '" + group + "' dependencies to version '" + newVersion + "'",
                           c -> patchMavenCoordinates( c, group, newVersion ) );
   }
 }
