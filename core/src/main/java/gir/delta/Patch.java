@@ -24,6 +24,7 @@ public final class Patch
    * @param directory     the base directory of the git repository.
    * @param fileToPatch   the file to process.
    * @param patchFunction the action to process the contents of the file.
+   * @return true if the file was patched.
    */
   public static boolean patchAndAddFile( @Nonnull final Path directory,
                                          @Nonnull final Path fileToPatch,
@@ -46,6 +47,7 @@ public final class Patch
    * @param fileToPatch           the file to process.
    * @param commitMessageFunction the function that produces a commit message if the file was patched.
    * @param patchFunction         the action to process the contents of the file.
+   * @return true if the file was patched.
    */
   public static boolean patchAndCommitFile( @Nonnull final Path directory,
                                             @Nonnull final Path fileToPatch,
