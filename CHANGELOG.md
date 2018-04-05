@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.04](https://github.com/realityforge/gir/tree/v0.04) (2018-04-05)
+[Full Changelog](https://github.com/realityforge/gir/compare/v0.03...v0.04)
 
 * Add `Patch.patchAndAddFile(...)` utility.
 
