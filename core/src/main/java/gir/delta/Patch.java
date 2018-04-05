@@ -17,6 +17,27 @@ public final class Patch
   }
 
   /**
+   * Apply action to file to patch file if it exists and add the changes.
+   * If the file does not exist or the patch function produces no changes then no action will be taken. Otherwise
+   * the file will be modified and the changed version added to git's staging area.
+   *
+   * @param directory     the base directory of the git repository.
+   * @param fileToPatch   the file to process.
+   * @param patchFunction the action to process the contents of the file.
+   */
+  public static boolean patchAndAddFile( @Nonnull final Path directory,
+                                         @Nonnull final Path fileToPatch,
+                                         @Nonnull final Function<String, String> patchFunction )
+  {
+    if ( fileToPatch.toFile().exists() && Patch.file( fileToPatch, patchFunction ) )
+    {
+      FileUtil.inDirectory( directory, () -> Git.add( fileToPatch.toString() ) );
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Apply action to file to patch file if it exists and commit the changes.
    * If the file does not exist or the patch function produces no changes then no action will be taken. Otherwise
    * the file will be modified and the changed version committed to git.
