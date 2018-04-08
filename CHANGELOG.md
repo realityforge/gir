@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Fix bug in `Git.checkout(...)` that would attempt to checkout existing branches with `-b` argument.
+
 ### [v0.04](https://github.com/realityforge/gir/tree/v0.04) (2018-04-05)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.03...v0.04)
 
