@@ -3,7 +3,7 @@ require 'buildr/gpg'
 require 'buildr/single_intermediate_layout'
 require 'buildr/jacoco'
 
-PROVIDED_DEPS = [:javax_jsr305, :anodoc]
+PROVIDED_DEPS = [:javax_annotation, :anodoc]
 TEST_DEPS = [:guiceyloops]
 
 # JDK options passed to test environment. Essentially turns assertions on.
