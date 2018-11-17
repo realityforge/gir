@@ -1,6 +1,6 @@
 # Gir
 
-[![Build Status](https://secure.travis-ci.org/realityforge/gir.png?branch=master)](http://travis-ci.org/realityforge/gir)
+[![Build Status](https://secure.travis-ci.org/realityforge/gir.svg?branch=master)](http://travis-ci.org/realityforge/gir)
 [<img src="https://img.shields.io/maven-central/v/org.realityforge.realityforge/gir-core.svg?label=latest%20release"/>](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.realityforge.gir%22)
 [![codecov](https://codecov.io/gh/realityforge/gir/branch/master/graph/badge.svg)](https://codecov.io/gh/realityforge/gir)
 
