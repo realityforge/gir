@@ -6,7 +6,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javax.annotation.Nonnull;
-import org.realityforge.anodoc.TestOnly;
 
 /**
  * Context associated with a particular Gir session.
@@ -15,7 +14,6 @@ public final class GirContext
 {
   private final ExecutorService _executorService = Executors.newCachedThreadPool();
   private boolean _closed;
-
   @Nonnull
   private Messenger _messenger = new StandardMessenger( StandardMessenger.INFO );
 
@@ -95,7 +93,6 @@ public final class GirContext
     _executorService.shutdown();
   }
 
-  @TestOnly
   @Nonnull
   ExecutorService getExecutorService()
   {

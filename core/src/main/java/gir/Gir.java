@@ -2,7 +2,6 @@ package gir;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.realityforge.anodoc.TestOnly;
 
 /**
  * The top level class from which to access Gir facilities.
@@ -68,7 +67,6 @@ public final class Gir
     return context().getMessenger();
   }
 
-  @TestOnly
   static void setContext( @Nullable final GirContext context )
   {
     c_context = context;
