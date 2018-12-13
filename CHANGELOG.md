@@ -3,6 +3,7 @@
 ### Unreleased
 
 * Remove anodoc dependency.
+* Remove deployment from TravisCI infrastructure as it is no longer feasible.
 
 ### [v0.05](https://github.com/realityforge/gir/tree/v0.05) (2018-04-08)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.04...v0.05)
