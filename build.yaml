@@ -11,6 +11,6 @@ artifacts:
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.96
 
-  braincheck: org.realityforge.braincheck:braincheck:jar:gwt:1.12.0
+  braincheck: org.realityforge.braincheck:braincheck:jar:1.12.0
 
   testng: org.testng:testng:jar:6.11
