@@ -59,6 +59,19 @@ public final class FileUtil
   }
 
   /**
+   * Recursively delete directory if it exists.
+   *
+   * @param directory the directory to delete.
+   */
+  static void deleteDirIfExists( @Nonnull final Path directory )
+  {
+    if ( directory.toFile().exists() )
+    {
+      deleteDir( directory );
+    }
+  }
+
+  /**
    * Recursively delete directory.
    *
    * @param directory the directory to delete.

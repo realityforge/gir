@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Add `FileUtil.deleteDirIfExists(Path)` helper method.
 * Remove anodoc dependency.
 * Remove deployment from TravisCI infrastructure as it is no longer feasible.
 
