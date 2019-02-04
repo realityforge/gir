@@ -63,7 +63,7 @@ public final class FileUtil
    *
    * @param directory the directory to delete.
    */
-  static void deleteDirIfExists( @Nonnull final Path directory )
+  public static void deleteDirIfExists( @Nonnull final Path directory )
   {
     if ( directory.toFile().exists() )
     {

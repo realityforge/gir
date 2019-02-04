@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Ensure `FileUtil.deleteDirIfExists(Path)` is public.
+
 ### [v0.06](https://github.com/realityforge/gir/tree/v0.06) (2019-02-04)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.05...v0.06)
 
