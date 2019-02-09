@@ -1,4 +1,17 @@
-require File.expand_path(File.dirname(__FILE__) + '/util')
+WORKSPACE_DIR = File.expand_path(File.dirname(__FILE__) + '/..')
+
+def in_dir(dir)
+  current = Dir.pwd
+  begin
+    Dir.chdir(dir)
+    yield
+  ensure
+    Dir.chdir(current)
+  end
+end
+
+ENV['PREVIOUS_PRODUCT_VERSION'] = nil if ENV['PREVIOUS_PRODUCT_VERSION'].to_s == ''
+ENV['PRODUCT_VERSION'] = nil if ENV['PRODUCT_VERSION'].to_s == ''
 
 def stage(stage_name, description, options = {})
   if ENV['STAGE'].nil? || ENV['STAGE'] == stage_name || options[:always_run]
@@ -14,6 +27,9 @@ def stage(stage_name, description, options = {})
   elsif !ENV['STAGE'].nil?
     puts "Skipping Stage: #{stage_name} - #{description}"
   end
+  if ENV['LAST_STAGE'] == stage_name
+    ENV['STAGE'] = ENV['LAST_STAGE']
+  end
 end
 
 desc 'Perform a release'
@@ -22,7 +38,7 @@ task 'perform_release' do
   in_dir(WORKSPACE_DIR) do
     stage('ExtractVersion', 'Extract the last version from CHANGELOG.md and derive next version unless specified', :always_run => true) do
       changelog = IO.read('CHANGELOG.md')
-      ENV['PREVIOUS_PRODUCT_VERSION'] ||= changelog[/^### \[v(\d+\.\d+)\]/, 1]
+      ENV['PREVIOUS_PRODUCT_VERSION'] ||= changelog[/^### \[v(\d+\.\d+)\]/, 1] || '0.00'
 
       next_version = ENV['PRODUCT_VERSION']
       unless next_version
@@ -45,14 +61,15 @@ task 'perform_release' do
     end
 
     stage('Build', 'Build the project to ensure that the tests pass') do
-      task('package').invoke
+      sh "bundle exec buildr clean package install PRODUCT_VERSION=#{ENV['PRODUCT_VERSION']}"
     end
 
     stage('PatchChangelog', 'Patch the changelog to update from previous release') do
       changelog = IO.read('CHANGELOG.md')
+      from = '0.00' == ENV['PREVIOUS_PRODUCT_VERSION'] ? `git rev-list --max-parents=0 HEAD` : "v#{ENV['PREVIOUS_PRODUCT_VERSION']}"
       changelog = changelog.gsub("### Unreleased\n", <<HEADER)
 ### [v#{ENV['PRODUCT_VERSION']}](https://github.com/realityforge/gir/tree/v#{ENV['PRODUCT_VERSION']}) (#{ENV['RELEASE_DATE']})
-[Full Changelog](https://github.com/realityforge/gir/compare/v#{ENV['PREVIOUS_PRODUCT_VERSION']}...v#{ENV['PRODUCT_VERSION']})
+[Full Changelog](https://github.com/realityforge/gir/compare/#{from}...v#{ENV['PRODUCT_VERSION']})
 HEADER
       IO.write('CHANGELOG.md', changelog)
 
@@ -67,12 +84,12 @@ HEADER
 
     stage('StageRelease', 'Stage the release') do
       IO.write('_buildr.rb', "repositories.release_to = { :url => 'https://stocksoftware.jfrog.io/stocksoftware/staging', :username => '#{ENV['STAGING_USERNAME']}', :password => '#{ENV['STAGING_PASSWORD']}' }")
-      sh 'bundle exec buildr clean upload TEST=no GWT=no'
+      sh 'bundle exec buildr clean upload TEST=no'
       sh 'rm -f _buildr.rb'
     end
 
     stage('MavenCentralPublish', 'Publish artifacts to Maven Central') do
-      sh 'buildr clean mcrt:publish_if_tagged'
+      sh 'buildr clean mcrt:publish_if_tagged TEST=no'
     end
 
     stage('PatchChangelogPostRelease', 'Patch the changelog post release to prepare for next development iteration') do
@@ -102,6 +119,7 @@ HEADER
       start = changelog.index("\n", start + 1)
 
       end_index = changelog.index('### [v', start)
+      end_index = changelog.length if end_index.nil?
 
       changes = changelog[start, end_index - start]
 
@@ -126,6 +144,10 @@ HEADER
   end
 
   if ENV['STAGE']
-    raise "Invalid STAGE specified '#{ENV['STAGE']}' that did not match any stage"
+    if ENV['LAST_STAGE'] == ENV['STAGE']
+      puts "LAST_STAGE specified '#{ENV['LAST_STAGE']}', later stages were skipped"
+    else
+      raise "Invalid STAGE specified '#{ENV['STAGE']}' that did not match any stage"
+    end
   end
 end
