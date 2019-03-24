@@ -189,4 +189,25 @@ public final class FileUtil
     }
     return dir.toPath().toAbsolutePath().normalize();
   }
+
+  /**
+   * Run the supplied action in a temp directory.
+   * After the action completes the temp directory is deleted.
+   *
+   * @param action the action.
+   * @throws Exception if action throws an error.
+   */
+  public static void inTempDir( @Nonnull final Task action )
+    throws Exception
+  {
+    final Path dir = createTempDir();
+    try
+    {
+      FileUtil.inDirectory( dir, action );
+    }
+    finally
+    {
+      FileUtil.deleteDirIfExists( dir );
+    }
+  }
 }
