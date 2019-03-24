@@ -108,7 +108,7 @@ public class BuildrTest
 
     final String group = "com.google.elemental2";
     final boolean patched = Buildr.patchBuildYmlDependency( repository, group, "3.2-RTC456" );
-    assertEquals( patched, true );
+    assertTrue( patched );
 
     TestUtil.assertCommitSubject( repository,
                                   "Update the 'com.google.elemental2' dependencies to version '3.2-RTC456'" );
@@ -132,7 +132,7 @@ public class BuildrTest
 
     final String group = "com.google.other";
     final boolean patched = Buildr.patchBuildYmlDependency( repository, group, "3.2-RTC456" );
-    assertEquals( patched, false );
+    assertFalse( patched );
 
     final String output = new String( Files.readAllBytes( repository.resolve( "build.yaml" ) ) );
     assertEquals( output, initialContent );
@@ -147,6 +147,6 @@ public class BuildrTest
 
     final boolean patched =
       Buildr.patchBuildYmlDependency( repository, "com.google.other", "3.2-RTC456" );
-    assertEquals( patched, false );
+    assertFalse( patched );
   }
 }

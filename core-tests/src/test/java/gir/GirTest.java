@@ -36,9 +36,9 @@ public class GirTest
       final GirContext context = Gir.context();
       assertNotNull( context );
       reference.set( context );
-      assertEquals( context.isClosed(), false );
+      assertFalse( context.isClosed() );
     } );
     assertThrows( GirException.class, Gir::context );
-    assertEquals( reference.get().isClosed(), true );
+    assertTrue( reference.get().isClosed() );
   }
 }

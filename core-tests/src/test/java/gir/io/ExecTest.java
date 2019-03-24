@@ -117,7 +117,7 @@ public class ExecTest
     final List<String> command = exception.getCommand();
     assertEquals( exception.getActualExitCode(), 2 );
     assertEquals( exception.getExpectedExitCode(), 0 );
-    assertEquals( exception.getOutput(), null );
+    assertNull( exception.getOutput() );
     assertEquals( command.size(), 3 );
     assertEquals( command.get( 0 ), "bash" );
     assertEquals( command.get( 1 ), "-c" );
