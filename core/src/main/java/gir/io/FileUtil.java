@@ -168,4 +168,25 @@ public final class FileUtil
     file.getParent().toFile().mkdirs();
     Files.write( file, content );
   }
+
+  /**
+   * Create temp directory.
+   *
+   * @return the new temp directory.
+   */
+  @Nonnull
+  public static Path createTempDir()
+    throws IOException
+  {
+    final File dir = File.createTempFile( "gir", "dir" );
+    if ( !dir.delete() )
+    {
+      throw new GirException( "Failed to delete intermediate tmp file: " + dir );
+    }
+    if ( !dir.mkdir() )
+    {
+      throw new GirException( "Failed to create tmp dir: " + dir );
+    }
+    return dir.toPath().toAbsolutePath().normalize();
+  }
 }

@@ -3,7 +3,7 @@ package gir.test.util;
 import gir.io.Exec;
 import gir.io.FileUtil;
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.Path;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import static org.testng.Assert.*;
@@ -18,44 +18,34 @@ public final class TestUtil
   }
 
   @Nonnull
-  public static File createTempDirectory()
-    throws IOException
-  {
-    final File file = File.createTempFile( "gir", "test" );
-    assertTrue( file.delete() );
-    assertTrue( file.mkdirs() );
-    return file;
-  }
-
-  @Nonnull
-  public static File createGitRepository( @Nonnull final ThrowingConsumer<File> action )
+  public static Path createGitRepository( @Nonnull final ThrowingConsumer<Path> action )
     throws Exception
   {
-    final File directory = createTempDirectory();
+    final Path directory = FileUtil.createTempDir();
     action.accept( directory );
     TestUtil.setupAsGitRepository( directory );
     return directory;
   }
 
-  public static void assertCommitSubject( @Nonnull final File repository, @Nonnull final String subject )
+  public static void assertCommitSubject( @Nonnull final Path repository, @Nonnull final String subject )
     throws Exception
   {
     assertCommitAttribute( repository, "%s", subject );
   }
 
-  public static void assertCommitAuthor( @Nonnull final File repository, @Nonnull final String author )
+  public static void assertCommitAuthor( @Nonnull final Path repository, @Nonnull final String author )
     throws Exception
   {
     assertCommitAttribute( repository, "%an", author );
   }
 
-  public static void assertCommitEmail( @Nonnull final File repository, @Nonnull final String email )
+  public static void assertCommitEmail( @Nonnull final Path repository, @Nonnull final String email )
     throws Exception
   {
     assertCommitAttribute( repository, "%ae", email );
   }
 
-  public static void assertCommitAttribute( @Nonnull final File repository,
+  public static void assertCommitAttribute( @Nonnull final Path repository,
                                             @Nonnull final String formatKey,
                                             @Nonnull final Pattern pattern )
     throws Exception
@@ -63,7 +53,7 @@ public final class TestUtil
     assertCommitAttribute( repository, formatKey, pattern, 0 );
   }
 
-  public static void assertCommitAttribute( @Nonnull final File repository,
+  public static void assertCommitAttribute( @Nonnull final Path repository,
                                             @Nonnull final String formatKey,
                                             @Nonnull final String value )
     throws Exception
@@ -71,7 +61,7 @@ public final class TestUtil
     assertCommitAttribute( repository, formatKey, value, 0 );
   }
 
-  public static void assertCommitAttribute( @Nonnull final File repository,
+  public static void assertCommitAttribute( @Nonnull final Path repository,
                                             @Nonnull final String formatKey,
                                             @Nonnull final String value,
                                             final int commitIndex )
@@ -80,31 +70,30 @@ public final class TestUtil
     assertCommitAttribute( repository, formatKey, Pattern.compile( Pattern.quote( value ) ), commitIndex );
   }
 
-  public static void assertCommitAttribute( @Nonnull final File repository,
+  public static void assertCommitAttribute( @Nonnull final Path repository,
                                             @Nonnull final String formatKey,
                                             @Nonnull final Pattern pattern,
                                             final int commitIndex )
-    throws Exception
   {
-    FileUtil.inDirectory( repository.toPath(), () -> {
+    FileUtil.inDirectory( repository, () -> {
       final String[] lines = Exec.capture( "git", "log", "--pretty=format:" + formatKey ).split( "\n" );
       final String line = lines[ commitIndex ];
       assertTrue( pattern.matcher( line ).matches(), "Pattern: " + pattern + " expected to match line: " + line );
     } );
   }
 
-  public static void setupAsGitRepository( @Nonnull final File directory )
+  public static void setupAsGitRepository( @Nonnull final Path directory )
     throws Exception
   {
     setupAsGitRepository( directory, DEFAULT_NAME, DEFAULT_EMAIL );
   }
 
-  public static void setupAsGitRepository( @Nonnull final File directory,
+  public static void setupAsGitRepository( @Nonnull final Path directory,
                                            @Nonnull final String name,
                                            @Nonnull final String email )
     throws Exception
   {
-    FileUtil.inDirectory( directory.toPath(), () -> {
+    FileUtil.inDirectory( directory, () -> {
       Exec.system( "git", "init" );
       Exec.system( "git", "config", "--local", "user.email", name );
       Exec.system( "git", "config", "--local", "user.email", email );

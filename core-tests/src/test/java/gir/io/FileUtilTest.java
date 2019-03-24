@@ -1,8 +1,6 @@
 package gir.io;
 
 import gir.test.util.AbstractGirTest;
-import gir.test.util.TestUtil;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.testng.annotations.Test;
@@ -17,8 +15,7 @@ public class FileUtilTest
   {
     assertEquals( FileUtil.getCurrentDirectory(), FileUtil.cwd() );
 
-    final File file = TestUtil.createTempDirectory();
-    final Path newDirectory = file.toPath();
+    final Path newDirectory = FileUtil.createTempDir();
     FileUtil.setCurrentDirectory( newDirectory );
 
     assertEquals( FileUtil.getCurrentDirectory(), newDirectory );
@@ -30,8 +27,7 @@ public class FileUtilTest
   {
     final Path initialDirectory = FileUtil.getCurrentDirectory();
 
-    final File file = TestUtil.createTempDirectory();
-    final Path directory = file.toPath();
+    final Path directory = FileUtil.createTempDir();
     assertEquals( FileUtil.getCurrentDirectory(), initialDirectory );
     FileUtil.inDirectory( directory, () -> assertEquals( FileUtil.getCurrentDirectory(), directory ) );
     assertEquals( FileUtil.getCurrentDirectory(), initialDirectory );
@@ -41,7 +37,7 @@ public class FileUtilTest
   public void write()
     throws Exception
   {
-    final Path directory = TestUtil.createTempDirectory().toPath();
+    final Path directory = FileUtil.createTempDir();
     FileUtil.inDirectory( directory, () -> {
       FileUtil.write( "foo.txt", "A" );
       FileUtil.write( "bar/bar.txt", "B" );

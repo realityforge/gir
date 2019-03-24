@@ -2,8 +2,8 @@ package gir.ruby;
 
 import gir.test.util.AbstractGirTest;
 import gir.test.util.TestUtil;
-import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -108,17 +108,17 @@ public class BuildrTest
       "  elemental2_core: com.google.elemental2:elemental2-core:jar:3.2-RTC456\n" +
       "  elemental2_dom: com.google.elemental2:elemental2-dom:jar:3.2-RTC456\n" +
       "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:3.2-RTC456\n";
-    final File repository =
-      TestUtil.createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
+    final Path repository =
+      TestUtil.createGitRepository( d -> Files.write( d.resolve( "build.yaml" ), initialContent.getBytes() ) );
 
     final String group = "com.google.elemental2";
-    final boolean patched = Buildr.patchBuildYmlDependency( repository.toPath(), group, "3.2-RTC456" );
+    final boolean patched = Buildr.patchBuildYmlDependency( repository, group, "3.2-RTC456" );
     assertEquals( patched, true );
 
     TestUtil.assertCommitSubject( repository,
                                   "Update the 'com.google.elemental2' dependencies to version '3.2-RTC456'" );
 
-    final String output = new String( Files.readAllBytes( repository.toPath().resolve( "build.yaml" ) ) );
+    final String output = new String( Files.readAllBytes( repository.resolve( "build.yaml" ) ) );
     assertEquals( output, expectedContent );
   }
 
@@ -132,14 +132,14 @@ public class BuildrTest
       "  elemental2_dom: com.google.elemental2:elemental2-dom:jar:1.0.0-RC1\n" +
       "  elemental2_promise: com.google.elemental2:elemental2-promise:jar:1.0.0-RC1\n";
 
-    final File repository =
-      TestUtil.createGitRepository( d -> Files.write( d.toPath().resolve( "build.yaml" ), initialContent.getBytes() ) );
+    final Path repository =
+      TestUtil.createGitRepository( d -> Files.write( d.resolve( "build.yaml" ), initialContent.getBytes() ) );
 
     final String group = "com.google.other";
-    final boolean patched = Buildr.patchBuildYmlDependency( repository.toPath(), group, "3.2-RTC456" );
+    final boolean patched = Buildr.patchBuildYmlDependency( repository, group, "3.2-RTC456" );
     assertEquals( patched, false );
 
-    final String output = new String( Files.readAllBytes( repository.toPath().resolve( "build.yaml" ) ) );
+    final String output = new String( Files.readAllBytes( repository.resolve( "build.yaml" ) ) );
     assertEquals( output, initialContent );
   }
 
@@ -147,11 +147,11 @@ public class BuildrTest
   public void patchBuildYmlDependency_noFile()
     throws Exception
   {
-    final File repository =
-      TestUtil.createGitRepository( d -> Files.write( d.toPath().resolve( "README.md" ), "Blah".getBytes() ) );
+    final Path repository =
+      TestUtil.createGitRepository( d -> Files.write( d.resolve( "README.md" ), "Blah".getBytes() ) );
 
     final boolean patched =
-      Buildr.patchBuildYmlDependency( repository.toPath(), "com.google.other", "3.2-RTC456" );
+      Buildr.patchBuildYmlDependency( repository, "com.google.other", "3.2-RTC456" );
     assertEquals( patched, false );
   }
 }
