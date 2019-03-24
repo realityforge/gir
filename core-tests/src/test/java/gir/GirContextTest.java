@@ -101,7 +101,6 @@ public class GirContextTest
   @Test
   public void run_Runnable_whenClosed()
   {
-    final String result = "SomeRandomValue";
     final GirContext context = new GirContext();
 
     context.close();
