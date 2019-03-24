@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.braincheck` artifact to version `1.13.0`.
 * Add `FileUtil.write(...)` methods to ease writing files relative to current directory.
 * Add `FileUtil.createTempDir()` helper method.
 * Add `FileUtil.inTempDir(Action)` helper method.
