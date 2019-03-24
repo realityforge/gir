@@ -14,9 +14,10 @@ public class FileUtilTest
   public void currentDirectory()
     throws Exception
   {
-    assertEquals( FileUtil.getCurrentDirectory(), FileUtil.cwd() );
-
     final Path newDirectory = FileUtil.createTempDir();
+
+    assertNotEquals( FileUtil.getCurrentDirectory(), newDirectory );
+
     FileUtil.setCurrentDirectory( newDirectory );
 
     assertEquals( FileUtil.getCurrentDirectory(), newDirectory );
