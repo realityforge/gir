@@ -11,7 +11,6 @@ public class ExecTest
 {
   @Test
   public void cmd()
-    throws Exception
   {
     final ProcessBuilder builder = new ProcessBuilder();
     Exec.cmd( builder, "echo", "hi" );
@@ -24,7 +23,6 @@ public class ExecTest
 
   @Test
   public void cmd_withNulls()
-    throws Exception
   {
     final ProcessBuilder builder = new ProcessBuilder();
     Exec.cmd( builder, "git", "push", null, "origin" );
@@ -38,7 +36,6 @@ public class ExecTest
 
   @Test
   public void exec()
-    throws Exception
   {
     final int exitCode = Exec.exec( builder -> builder.command( "echo", "hi" ) );
 
@@ -47,7 +44,6 @@ public class ExecTest
 
   @Test
   public void exec_withNonZeroExitCode()
-    throws Exception
   {
     final int exitCode = Exec.exec( builder -> builder.command( "false" ) );
 
@@ -56,7 +52,6 @@ public class ExecTest
 
   @Test
   public void exec_withProcessAction()
-    throws Exception
   {
     final int exitCode = Exec.exec( builder -> builder.command( "false" ), Assert::assertNotNull );
 
@@ -65,7 +60,6 @@ public class ExecTest
 
   @Test
   public void exec_errorStartingProcess()
-    throws Exception
   {
     final ErrorStartingProcessException exception =
       expectThrows( ErrorStartingProcessException.class,
@@ -78,7 +72,6 @@ public class ExecTest
 
   @Test
   public void exec_threadInterruptedProcess()
-    throws Exception
   {
     final Thread thread = Thread.currentThread();
     final ErrorWaitingForProcessException exception =
@@ -147,7 +140,6 @@ public class ExecTest
 
   @Test
   public void capture_badExitStatus()
-    throws Exception
   {
     final BadExitCodeException exception =
       expectThrows( BadExitCodeException.class,
@@ -165,7 +157,6 @@ public class ExecTest
 
   @Test
   public void capture_badExitStatusAndOutput()
-    throws Exception
   {
     final BadExitCodeException exception =
       expectThrows( BadExitCodeException.class,
@@ -183,7 +174,6 @@ public class ExecTest
 
   @Test
   public void capture_errorStartingProcess()
-    throws Exception
   {
     final ErrorStartingProcessException exception =
       expectThrows( ErrorStartingProcessException.class,

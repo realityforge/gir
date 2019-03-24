@@ -20,7 +20,6 @@ public class GirTest
 
   @Test
   public void context_noGo()
-    throws Exception
   {
     final GirException exception = expectThrows( GirException.class, Gir::context );
 

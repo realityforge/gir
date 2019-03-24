@@ -21,7 +21,6 @@ public abstract class AbstractGirTest
 
   @AfterMethod
   protected void afterTest()
-    throws Exception
   {
     BrainCheckTestUtil.resetConfig( true );
   }

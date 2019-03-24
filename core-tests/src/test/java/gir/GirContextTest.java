@@ -12,7 +12,6 @@ public class GirContextTest
 {
   @Test
   public void close()
-    throws Exception
   {
     final GirContext context = new GirContext();
     assertFalse( context.isClosed() );
@@ -26,7 +25,6 @@ public class GirContextTest
 
   @Test
   public void close_onClose()
-    throws Exception
   {
     final GirContext context = new GirContext();
 
@@ -89,7 +87,6 @@ public class GirContextTest
 
   @Test
   public void run_Callable_whenClosed()
-    throws Exception
   {
     final String result = "SomeRandomValue";
     final GirContext context = new GirContext();
@@ -103,7 +100,6 @@ public class GirContextTest
 
   @Test
   public void run_Runnable_whenClosed()
-    throws Exception
   {
     final String result = "SomeRandomValue";
     final GirContext context = new GirContext();

@@ -28,19 +28,16 @@ public final class TestUtil
   }
 
   public static void assertCommitSubject( @Nonnull final Path repository, @Nonnull final String subject )
-    throws Exception
   {
     assertCommitAttribute( repository, "%s", subject );
   }
 
   public static void assertCommitAuthor( @Nonnull final Path repository, @Nonnull final String author )
-    throws Exception
   {
     assertCommitAttribute( repository, "%an", author );
   }
 
   public static void assertCommitEmail( @Nonnull final Path repository, @Nonnull final String email )
-    throws Exception
   {
     assertCommitAttribute( repository, "%ae", email );
   }
@@ -48,7 +45,6 @@ public final class TestUtil
   public static void assertCommitAttribute( @Nonnull final Path repository,
                                             @Nonnull final String formatKey,
                                             @Nonnull final Pattern pattern )
-    throws Exception
   {
     assertCommitAttribute( repository, formatKey, pattern, 0 );
   }
@@ -56,7 +52,6 @@ public final class TestUtil
   public static void assertCommitAttribute( @Nonnull final Path repository,
                                             @Nonnull final String formatKey,
                                             @Nonnull final String value )
-    throws Exception
   {
     assertCommitAttribute( repository, formatKey, value, 0 );
   }
@@ -65,7 +60,6 @@ public final class TestUtil
                                             @Nonnull final String formatKey,
                                             @Nonnull final String value,
                                             final int commitIndex )
-    throws Exception
   {
     assertCommitAttribute( repository, formatKey, Pattern.compile( Pattern.quote( value ) ), commitIndex );
   }
@@ -83,7 +77,6 @@ public final class TestUtil
   }
 
   public static void setupAsGitRepository( @Nonnull final Path directory )
-    throws Exception
   {
     setupAsGitRepository( directory, DEFAULT_NAME, DEFAULT_EMAIL );
   }
@@ -91,7 +84,6 @@ public final class TestUtil
   public static void setupAsGitRepository( @Nonnull final Path directory,
                                            @Nonnull final String name,
                                            @Nonnull final String email )
-    throws Exception
   {
     FileUtil.inDirectory( directory, () -> {
       Exec.system( "git", "init" );

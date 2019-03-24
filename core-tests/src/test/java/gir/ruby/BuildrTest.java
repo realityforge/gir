@@ -12,7 +12,6 @@ public class BuildrTest
 {
   @Test
   public void patchMavenCoordinates_matchSingleCoordinate()
-    throws Exception
   {
     final String initialContent =
       "artifacts:\n" +
@@ -35,7 +34,6 @@ public class BuildrTest
 
   @Test
   public void patchMavenCoordinates_NoMatch()
-    throws Exception
   {
     final String initialContent =
       "artifacts:\n" +
@@ -47,7 +45,6 @@ public class BuildrTest
 
   @Test
   public void patchMavenCoordinates_noTrailingContent()
-    throws Exception
   {
     final String initialContent =
       "artifacts:\n" +
@@ -62,7 +59,6 @@ public class BuildrTest
 
   @Test
   public void patchMavenCoordinates_includesClassifier()
-    throws Exception
   {
     final String initialContent =
       "artifacts:\n" +
@@ -77,7 +73,6 @@ public class BuildrTest
 
   @Test
   public void patchMavenCoordinates_matchMultipleCoordinates()
-    throws Exception
   {
     final String initialContent =
       "artifacts:\n" +
