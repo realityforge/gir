@@ -141,4 +141,31 @@ public final class FileUtil
       setCurrentDirectory( initial );
     }
   }
+
+  /**
+   * Write contents of file relative to the current directory.
+   *
+   * @param path    path to file relative to current directory.
+   * @param content the file contents.
+   */
+  public static void write( @Nonnull final String path, @Nonnull final String content )
+    throws IOException
+  {
+    write( path, content.getBytes() );
+  }
+
+  /**
+   * Write contents of file relative to the current directory.
+   *
+   * @param path    path to file relative to current directory.
+   * @param content the file contents.
+   */
+  public static void write( @Nonnull final String path, @Nonnull final byte[] content )
+    throws IOException
+  {
+    final Path file = FileUtil.getCurrentDirectory().resolve( path ).toAbsolutePath().normalize();
+    //noinspection ResultOfMethodCallIgnored
+    file.getParent().toFile().mkdirs();
+    Files.write( file, content );
+  }
 }

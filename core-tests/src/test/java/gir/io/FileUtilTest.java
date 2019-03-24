@@ -3,6 +3,7 @@ package gir.io;
 import gir.test.util.AbstractGirTest;
 import gir.test.util.TestUtil;
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -34,5 +35,23 @@ public class FileUtilTest
     assertEquals( FileUtil.getCurrentDirectory(), initialDirectory );
     FileUtil.inDirectory( directory, () -> assertEquals( FileUtil.getCurrentDirectory(), directory ) );
     assertEquals( FileUtil.getCurrentDirectory(), initialDirectory );
+  }
+
+  @Test
+  public void write()
+    throws Exception
+  {
+    final Path directory = TestUtil.createTempDirectory().toPath();
+    FileUtil.inDirectory( directory, () -> {
+      FileUtil.write( "foo.txt", "A" );
+      FileUtil.write( "bar/bar.txt", "B" );
+      FileUtil.write( "baz.dat", new byte[ 1 ] );
+    } );
+
+    assertEquals( Files.readAllBytes( directory.resolve( "foo.txt" ) ), new byte[]{ 'A' } );
+    assertEquals( Files.readAllBytes( directory.resolve( "bar/bar.txt" ) ), new byte[]{ 'B' } );
+    assertEquals( Files.readAllBytes( directory.resolve( "baz.dat" ) ), new byte[]{ 0 } );
+
+    FileUtil.deleteDir( directory );
   }
 }

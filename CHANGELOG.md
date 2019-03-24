@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Add `FileUtil.write(...)` methods to ease writing files relative to current directory.
+
 ### [v0.07](https://github.com/realityforge/gir/tree/v0.07) (2019-02-04)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.06...v0.07)
 
