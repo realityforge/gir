@@ -191,6 +191,27 @@ public final class FileUtil
   }
 
   /**
+   * Create temp directory inside current directory.
+   *
+   * @return the new temp directory.
+   */
+  @Nonnull
+  public static Path createLocalTempDir()
+    throws IOException
+  {
+    final File dir = File.createTempFile( "gir", "dir", FileUtil.getCurrentDirectory().toFile() );
+    if ( !dir.delete() )
+    {
+      throw new GirException( "Failed to delete intermediate tmp file: " + dir );
+    }
+    if ( !dir.mkdir() )
+    {
+      throw new GirException( "Failed to create tmp dir: " + dir );
+    }
+    return dir.toPath().toAbsolutePath().normalize();
+  }
+
+  /**
    * Run the supplied action in a temp directory.
    * After the action completes the temp directory is deleted.
    *
