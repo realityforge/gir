@@ -29,18 +29,12 @@ public class StandardMessenger
     _level = level;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void error( @Nonnull final String message )
   {
     log( ERROR, System.err, ANSI_RED, message );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void error( @Nonnull final String message, @Nonnull final Throwable throwable )
   {
@@ -48,18 +42,12 @@ public class StandardMessenger
     log( ERROR, System.err, ANSI_RED, throwable.toString() );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void info( @Nonnull final String message )
   {
     log( INFO, System.out, ANSI_GREEN, message );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void info( @Nonnull final String message, @Nonnull final Throwable throwable )
   {
@@ -67,18 +55,12 @@ public class StandardMessenger
     log( INFO, System.out, ANSI_GREEN, throwable.toString() );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void debug( @Nonnull final String message )
   {
     log( DEBUG, System.out, "", message );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void debug( @Nonnull final String message, @Nonnull final Throwable throwable )
   {

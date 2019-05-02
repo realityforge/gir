@@ -3,6 +3,8 @@
 ### Unreleased
 
 * Add `FileUtil.createLocalTempDir()` helper method.
+* Upgrade the `org.realityforge.braincheck` artifact to version `1.16.0`.
+* Remove `{@inheritDoc}` as it only explicitly indicates that the default behaviour at the expense of significant visual clutter.
 
 ### [v0.08](https://github.com/realityforge/gir/tree/v0.08) (2019-03-25)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.07...v0.08)
