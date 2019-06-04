@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.10](https://github.com/realityforge/gir/tree/v0.10) (2019-06-04)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.09...v0.10)
 
