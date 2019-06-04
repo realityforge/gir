@@ -164,10 +164,33 @@ public final class FileUtil
   public static void write( @Nonnull final String path, @Nonnull final byte[] content )
     throws IOException
   {
-    final Path file = FileUtil.getCurrentDirectory().resolve( path ).toAbsolutePath().normalize();
+    write( FileUtil.getCurrentDirectory().resolve( path ).toAbsolutePath().normalize(), content );
+  }
+
+  /**
+   * Write contents of file, creating parent directories.
+   *
+   * @param path    path to file relative to current directory.
+   * @param content the file contents.
+   */
+  public static void write( @Nonnull final Path path, @Nonnull final String content )
+    throws IOException
+  {
+    write( path, content.getBytes( StandardCharsets.US_ASCII ) );
+  }
+
+  /**
+   * Write contents of file, creating parent directories.
+   *
+   * @param path    path to file relative to current directory.
+   * @param content the file contents.
+   */
+  public static void write( @Nonnull final Path path, @Nonnull final byte[] content )
+    throws IOException
+  {
     //noinspection ResultOfMethodCallIgnored
-    file.getParent().toFile().mkdirs();
-    Files.write( file, content );
+    path.getParent().toFile().mkdirs();
+    Files.write( path, content );
   }
 
   /**
