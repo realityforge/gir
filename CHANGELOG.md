@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+* Lock down the charset used to `US_ASCII` when `FileUtil.write(Path,String)` to get consistent
+  behaviour across systems.
+
 ### [v0.09](https://github.com/realityforge/gir/tree/v0.09) (2019-05-02)
 [Full Changelog](https://github.com/realityforge/gir/compare/v0.08...v0.09)
 
