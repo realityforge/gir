@@ -39,7 +39,7 @@ public final class Buildr
   {
     final String regex =
       Pattern.quote( group ) +
-      "(\\:[.a-zA-Z0-9\\-_]+)(\\:[.a-zA-Z0-9\\-_]+)(\\:[.a-zA-Z0-9\\-_]+)?(\\:[.a-zA-Z0-9\\-_]+)";
+      "(:[.a-zA-Z0-9\\-_]+)(:[.a-zA-Z0-9\\-_]+)(:[.a-zA-Z0-9\\-_]+)?(:[.a-zA-Z0-9\\-_]+)";
     final Pattern compile = Pattern.compile( regex );
     final Matcher matcher = compile.matcher( content );
     matcher.reset();
