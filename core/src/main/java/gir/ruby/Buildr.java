@@ -23,8 +23,8 @@ public final class Buildr
    * are expected to be in one of the formats:
    *
    * <ul>
-   * <li>group::artifact:type:version</li>
-   * <li>group::artifact:type:classifier:version</li>
+   * <li>group:artifact:type:version</li>
+   * <li>group:artifact:type:classifier:version</li>
    * </ul>
    *
    * @param content    the content to process.
