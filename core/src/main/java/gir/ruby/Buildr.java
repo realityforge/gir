@@ -1,11 +1,10 @@
 package gir.ruby;
 
 import gir.delta.Patch;
+import gir.maven.Maven;
 import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 
 /**
@@ -23,6 +22,7 @@ public final class Buildr
    * are expected to be in one of the formats:
    *
    * <ul>
+   * <li>group:artifact:version</li>
    * <li>group:artifact:type:version</li>
    * <li>group:artifact:type:classifier:version</li>
    * </ul>
@@ -37,25 +37,8 @@ public final class Buildr
                                               @Nonnull final String group,
                                               @Nonnull final String newVersion )
   {
-    final String regex =
-      Pattern.quote( group ) +
-      "(:[.a-zA-Z0-9\\-_]+)(:[.a-zA-Z0-9\\-_]+)(:[.a-zA-Z0-9\\-_]+)?(:[.a-zA-Z0-9\\-_]+)";
-    final Pattern compile = Pattern.compile( regex );
-    final Matcher matcher = compile.matcher( content );
-    matcher.reset();
-    boolean result = matcher.find();
-    if ( result )
-    {
-      final StringBuffer sb = new StringBuffer();
-      do
-      {
-        matcher.appendReplacement( sb, group + "$1$2$3:" + newVersion );
-        result = matcher.find();
-      } while ( result );
-      matcher.appendTail( sb );
-      return sb.toString();
-    }
-    return content;
+    final String content3 = Maven.patchMaven4PartCoordinates( content, group, newVersion );
+    return Maven.patchMaven5PartCoordinates( content3, group, newVersion );
   }
 
   /**
