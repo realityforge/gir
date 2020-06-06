@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Upgrade the `org.realityforge.braincheck` artifact to version `1.28.0`.
+* Upgrade the `org.realityforge.braincheck` artifact to version `1.29.0`.
 * Upgrade the `org.realityforge.guiceyloops` artifact to version `0.106`.
 
 ### [v0.11](https://github.com/realityforge/gir/tree/v0.11) (2019-11-05) · [Full Changelog](https://github.com/realityforge/gir/compare/v0.10...v0.11)
