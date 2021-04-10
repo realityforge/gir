@@ -3,7 +3,7 @@
 ### Unreleased
 
 * Upgrade the `au.com.stocksoftware.idea.codestyle` artifact to version `1.17`.
-* Upgrade the `org.realityforge.braincheck` artifact to version `1.30.0`.
+* Upgrade the `org.realityforge.braincheck` artifact to version `1.31.0`.
 * Upgrade the `org.realityforge.guiceyloops` artifact to version `0.106`.
 
 ### [v0.11](https://github.com/realityforge/gir/tree/v0.11) (2019-11-05) · [Full Changelog](https://github.com/realityforge/gir/compare/v0.10...v0.11)
