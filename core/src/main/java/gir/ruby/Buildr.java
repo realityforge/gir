@@ -77,7 +77,7 @@ public final class Buildr
                                                  @Nonnull final String newVersion )
   {
     return patchBuildYml( directory,
-                          () -> "Update the '" + group + "' dependencies to version '" + newVersion + "'",
+                          () -> "Update the `" + group + "` artifacts to version `" + newVersion + "`",
                           c -> patchMavenCoordinates( c, group, newVersion ) );
   }
 }
