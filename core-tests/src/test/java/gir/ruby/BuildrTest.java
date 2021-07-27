@@ -111,7 +111,7 @@ public class BuildrTest
     assertTrue( patched );
 
     TestUtil.assertCommitSubject( repository,
-                                  "Update the 'com.google.elemental2' dependencies to version '3.2-RTC456'" );
+                                  "Update the `com.google.elemental2` artifacts to version `3.2-RTC456`" );
 
     final String output = new String( Files.readAllBytes( repository.resolve( "build.yaml" ) ) );
     assertEquals( output, expectedContent );
