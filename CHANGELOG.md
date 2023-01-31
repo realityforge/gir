@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Update the `org.realityforge.guiceyloops` artifact to version `0.112`.
+* Update the `org.realityforge.guiceyloops` artifact to version `0.113`.
 
 ### [v0.12](https://github.com/realityforge/gir/tree/v0.12) (2021-07-27) · [Full Changelog](https://github.com/realityforge/gir/compare/v0.11...v0.12)
 
